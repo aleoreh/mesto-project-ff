@@ -14,6 +14,7 @@ function createCardElement({ link, name }, deleteCardElement) {
     );
 
     imageElement.src = link;
+    imageElement.alt = `Фотография места: ${name}`;
     titleElement.innerText = name;
     deleteButtonElement.addEventListener('click', () =>
         deleteCardElement(cardElement)
