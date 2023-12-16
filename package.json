@@ -1,9 +1,14 @@
 {
-    "scripts": {
-        "dev": "live-server --no-browser"
-    },
-    "devDependencies": {
-        "live-server": "^1.2.2"
-    }
+  "name": "mesto-project-ff",
+  "version": "1",
+  "description": "Яндекс Практикум. Проектная работа «Mesto»",
+  "scripts": {
+    "dev": "live-server --no-browser"
+  },
+  "author": "Aleksey Orekhov",
+  "license": "ISC",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
 }
 
