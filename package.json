@@ -1,6 +1,6 @@
 {
   "name": "mesto-project-ff",
-  "version": "1",
+  "version": "2",
   "description": "Яндекс Практикум. Проектная работа «Mesto»",
   "scripts": {
     "dev": "live-server --no-browser"
