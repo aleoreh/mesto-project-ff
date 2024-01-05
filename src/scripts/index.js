@@ -1,4 +1,5 @@
 import { initialCards } from './cards';
+import popup from './popup';
 
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -33,5 +34,14 @@ function showCards(cards) {
     });
 }
 
-showCards(initialCards);
+function initializeProfile() {
+    const profileEditButton = document.querySelector('.profile__edit-button');
+    const editProfilePopup = document.querySelector('.popup.popup_type_edit');
 
+    profileEditButton.addEventListener('click', () => {
+        popup.show(editProfilePopup);
+    });
+}
+
+showCards(initialCards);
+initializeProfile();
