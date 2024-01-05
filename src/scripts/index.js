@@ -1,3 +1,5 @@
+import { initialCards } from './cards';
+
 const cardTemplate = document.querySelector('#card-template').content;
 
 function deleteElement(element) {
@@ -32,3 +34,4 @@ function showCards(cards) {
 }
 
 showCards(initialCards);
+
