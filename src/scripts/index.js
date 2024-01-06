@@ -35,11 +35,11 @@ function showCards(cards) {
 }
 
 function initializeProfile() {
-    const profileEditButton = document.querySelector('.profile__edit-button');
-    const editProfilePopup = document.querySelector('.popup.popup_type_edit');
+    const profileEditButtonElement = document.querySelector('.profile__edit-button');
+    const editProfilePopupElement = document.querySelector('.popup.popup_type_edit');
 
-    profileEditButton.addEventListener('click', () => {
-        popup.show(editProfilePopup);
+    profileEditButtonElement.addEventListener('click', () => {
+        popup.show(editProfilePopupElement);
     });
 }
 
