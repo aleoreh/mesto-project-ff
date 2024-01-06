@@ -1,5 +1,6 @@
 import { initialCards } from './cards';
-import popup from './popup';
+import PopupForm from './popupForm';
+import Profile from './profile';
 
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -35,11 +36,26 @@ function showCards(cards) {
 }
 
 function initializeProfile() {
-    const profileEditButtonElement = document.querySelector('.profile__edit-button');
-    const editProfilePopupElement = document.querySelector('.popup.popup_type_edit');
+    const profile = Profile.init();
+
+    const profileEditButtonElement = document.querySelector(
+        '.profile__edit-button'
+    );
+    const editProfilePopupElement = document.querySelector(
+        '.popup.popup_type_edit'
+    );
+
+    function onSubmit(data) {
+        profile.set(data.name, data.description);
+    }
 
     profileEditButtonElement.addEventListener('click', () => {
-        popup.show(editProfilePopupElement);
+        PopupForm.show(
+            editProfilePopupElement,
+            document.forms['edit-profile'],
+            profile.value,
+            onSubmit
+        );
     });
 }
 
