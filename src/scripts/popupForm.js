@@ -11,6 +11,12 @@ function show(rootElement, form, formData, onSubmit) {
         });
     }
 
+    function clearFormData() {
+        Object.keys(formData).forEach((key) => {
+            form[key].value = undefined;
+        });
+    }
+
     function getFormData() {
         return Object.keys(formData).reduce((acc, key) => {
             return { ...acc, [key]: form[key].value };
@@ -36,6 +42,7 @@ function show(rootElement, form, formData, onSubmit) {
         evt.preventDefault();
         onSubmit(getFormData());
         hideRootElement();
+        clearFormData();
     }
 
     function hideRootElement() {
@@ -46,6 +53,8 @@ function show(rootElement, form, formData, onSubmit) {
         rootElement.removeEventListener('click', hideRootElement);
         contentElement.removeEventListener('click', handleClickOnContent);
         closeButtonElement.removeEventListener('click', hideRootElement);
+
+        clearFormData();
     }
 
     function showRootElement() {
