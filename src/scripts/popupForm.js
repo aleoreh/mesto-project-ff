@@ -42,7 +42,6 @@ function show(rootElement, form, formData, onSubmit) {
         evt.preventDefault();
         onSubmit(getFormData());
         hideRootElement();
-        clearFormData();
     }
 
     function hideRootElement() {

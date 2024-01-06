@@ -1,8 +1,8 @@
+import Card from './card';
 import { initialCards } from './data';
 import PopupForm from './popupForm';
 import PopupImage from './popupImage';
 import Profile from './profile';
-import Card from './card';
 
 function showCards(cards) {
     const cardsListElement = document.querySelector('.places__list');
@@ -10,7 +10,7 @@ function showCards(cards) {
         '.popup.popup_type_image'
     );
 
-    function makeHandleImageClick(cardData) {
+    function makeImageClickHandler(cardData) {
         const popupData = {
             src: cardData.link,
             alt: Card.generateAltImageText(cardData.name),
@@ -22,8 +22,8 @@ function showCards(cards) {
     cards.forEach((cardData) => {
         const card = Card.init(cardData);
         const cardElement = card.create(
-            makeHandleImageClick(cardData),
-            card.like,
+            makeImageClickHandler(cardData),
+            card.toggleLike,
             (element) => element.remove()
         );
         cardsListElement.appendChild(cardElement);

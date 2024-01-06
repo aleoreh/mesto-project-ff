@@ -21,7 +21,7 @@ function init({ link, name }) {
 
             return element;
         },
-        like() {
+        toggleLike() {
             likeButtonElement.classList.toggle('card__like-button_is-active');
         },
     };
