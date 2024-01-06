@@ -1,4 +1,4 @@
-import { initialCards } from './cards';
+import { initialCards } from './data';
 import PopupForm from './popupForm';
 import Profile from './profile';
 
