@@ -1,62 +1,49 @@
 import { initialCards } from './data';
 import PopupForm from './popupForm';
+import PopupImage from './popupImage';
 import Profile from './profile';
-
-const cardTemplate = document.querySelector('#card-template').content;
-
-function deleteElement(element) {
-    element.remove();
-}
-
-function createCardElement({ link, name }, deleteCardElement) {
-    const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-
-    const imageElement = cardElement.querySelector('.card__image');
-    const titleElement = cardElement.querySelector('.card__title');
-    const deleteButtonElement = cardElement.querySelector(
-        '.card__delete-button'
-    );
-
-    imageElement.src = link;
-    imageElement.alt = `Фотография места: ${name}`;
-    titleElement.innerText = name;
-    deleteButtonElement.addEventListener('click', () =>
-        deleteCardElement(cardElement)
-    );
-
-    return cardElement;
-}
+import Card from './card';
 
 function showCards(cards) {
     const cardsListElement = document.querySelector('.places__list');
+    const showCardPopupElement = document.querySelector(
+        '.popup.popup_type_image'
+    );
 
-    cards.forEach((card) => {
-        cardsListElement.appendChild(createCardElement(card, deleteElement));
+    function makeHandleImageClick(cardData) {
+        const popupData = {
+            src: cardData.link,
+            alt: Card.generateAltImageText(cardData.name),
+            caption: cardData.name,
+        };
+        return () => PopupImage.show(showCardPopupElement, popupData);
+    }
+
+    cards.forEach((cardData) => {
+        const card = Card.init(cardData);
+        const cardElement = card.create(
+            makeHandleImageClick(cardData),
+            card.like,
+            (element) => element.remove()
+        );
+        cardsListElement.appendChild(cardElement);
     });
 }
 
 function initializeProfile() {
-    const profile = Profile.init();
-
-    const profileEditButtonElement = document.querySelector(
-        '.profile__edit-button'
-    );
+    const profile = Profile.init(handleEditClick);
     const editProfilePopupElement = document.querySelector(
         '.popup.popup_type_edit'
     );
 
-    function onSubmit(data) {
-        profile.set(data.name, data.description);
-    }
-
-    profileEditButtonElement.addEventListener('click', () => {
+    function handleEditClick() {
         PopupForm.show(
             editProfilePopupElement,
             document.forms['edit-profile'],
             profile.value,
-            onSubmit
+            profile.update
         );
-    });
+    }
 }
 
 showCards(initialCards);
