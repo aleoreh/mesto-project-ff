@@ -15,7 +15,7 @@ function show(rootElement, form, formData, onSubmit) {
 
     function clearFormData() {
         Object.keys(formData).forEach((key) => {
-            form[key].value = undefined;
+            form[key].value = '';
         });
     }
 
