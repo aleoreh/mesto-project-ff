@@ -1,6 +1,8 @@
 function show(rootElement, form, formData, onSubmit) {
     const isOpenedClassName = 'popup_is-opened';
 
+    const initTabIndex = rootElement.tabIndex;
+
     const contentElement = rootElement.querySelector('.popup__content');
     const closeButtonElement = rootElement.querySelector('.popup__close');
     const firstInputElement = rootElement.querySelector('input');
@@ -46,6 +48,7 @@ function show(rootElement, form, formData, onSubmit) {
 
     function hideRootElement() {
         rootElement.classList.remove(isOpenedClassName);
+        rootElement.tabIndex = initTabIndex;
 
         rootElement.removeEventListener('submit', handleSubmit);
         rootElement.removeEventListener('keydown', handleKeydown);
@@ -58,6 +61,8 @@ function show(rootElement, form, formData, onSubmit) {
 
     function showRootElement() {
         rootElement.classList.add(isOpenedClassName);
+        rootElement.tabIndex =
+            rootElement.tabIndex === -1 ? 0 : rootElement.tabIndex;
 
         rootElement.addEventListener('keydown', handleKeydown);
         rootElement.addEventListener('click', hideRootElement);
