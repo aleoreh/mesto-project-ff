@@ -43,12 +43,10 @@ function initializeCards(cards) {
 }
 
 function initializeProfile() {
-    const profile = Profile.init(handleEditClick);
     const editProfilePopupElement = document.querySelector(
         '.popup.popup_type_edit'
     );
-
-    function handleEditClick() {
+    function handleEditClick(profile) {
         PopupForm.show(
             editProfilePopupElement,
             document.forms['edit-profile'],
@@ -58,6 +56,9 @@ function initializeProfile() {
             }
         );
     }
+
+    const profile = Profile.init(handleEditClick);
+
     return profile;
 }
 

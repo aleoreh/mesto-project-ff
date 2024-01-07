@@ -26,7 +26,7 @@ function init(onEditCommand) {
         descriptionElement.textContent = _description;
     }
 
-    editButtonElement.addEventListener('click', onEditCommand);
+    editButtonElement.addEventListener('click', () => onEditCommand(obj));
 
     return obj;
 }
