@@ -4,6 +4,12 @@ import PopupForm from './popupForm';
 import PopupImage from './popupImage';
 import Profile from './profile';
 
+function setAnimatedPopups() {
+    document.querySelectorAll('.popup').forEach((elem) => {
+        elem.classList.add('popup_is-animated');
+    });
+}
+
 function addCard(cardData, position = 'after') {
     const cardsListElement = document.querySelector('.places__list');
     const showCardPopupElement = document.querySelector(
@@ -85,10 +91,7 @@ function initializeAddCardButton(profile) {
     addButtonElement.addEventListener('click', handleAddButtonClick);
 }
 
-document.querySelectorAll('.popup').forEach((elem) => {
-    elem.classList.add('popup_is-animated');
-});
-
+setAnimatedPopups();
 initializeCards(initialCards);
 const profile = initializeProfile();
 initializeAddCardButton(profile);
