@@ -77,8 +77,13 @@ function show(rootElement, form, formData, onSubmit) {
         (firstInputElement || closeButtonElement || rootElement).focus();
     }
 
+    function selectText() {
+        if (firstInputElement) firstInputElement.select();
+    }
+
     showRootElement();
     setFocus();
+    selectText();
 }
 
 export default { show };
