@@ -10,11 +10,11 @@ function showCards(cards) {
         '.popup.popup_type_image'
     );
 
-    function makeImageClickHandler(cardData) {
+    function makeImageClickHandler(card) {
         const popupData = {
-            src: cardData.link,
-            alt: Card.generateAltImageText(cardData.name),
-            caption: cardData.name,
+            src: card.value.link,
+            alt: card.generateAltImageText(),
+            caption: card.value.name,
         };
         return () => PopupImage.show(showCardPopupElement, popupData);
     }
@@ -22,7 +22,7 @@ function showCards(cards) {
     cards.forEach((cardData) => {
         const card = Card.init(cardData);
         const cardElement = card.create(
-            makeImageClickHandler(cardData),
+            makeImageClickHandler(card),
             card.toggleLike,
             (element) => element.remove()
         );
