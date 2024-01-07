@@ -1,11 +1,3 @@
-function model(name, description) {
-    // must match form inputs names
-    return {
-        name,
-        description,
-    };
-}
-
 function init(editCb) {
     const element = document.querySelector('.profile');
     const titleElement = element.querySelector('.profile__title');
@@ -18,7 +10,7 @@ function init(editCb) {
         get value() {
             const name = titleElement.textContent;
             const description = descriptionElement.textContent;
-            return model(name, description);
+            return { name, description };
         },
         update({ name, description }) {
             titleElement.textContent = name;
@@ -26,7 +18,7 @@ function init(editCb) {
         },
         get element() {
             return element;
-        }
+        },
     };
 }
 
