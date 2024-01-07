@@ -4,7 +4,7 @@ import PopupForm from './popupForm';
 import PopupImage from './popupImage';
 import Profile from './profile';
 
-function showCards(cards) {
+function initializeCards(cards) {
     const cardsListElement = document.querySelector('.places__list');
     const showCardPopupElement = document.querySelector(
         '.popup.popup_type_image'
@@ -46,5 +46,5 @@ function initializeProfile() {
     }
 }
 
-showCards(initialCards);
+initializeCards(initialCards);
 initializeProfile();
