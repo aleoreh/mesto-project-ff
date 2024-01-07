@@ -24,6 +24,9 @@ function init(editCb) {
             titleElement.textContent = name;
             descriptionElement.textContent = description;
         },
+        get element() {
+            return element;
+        }
     };
 }
 

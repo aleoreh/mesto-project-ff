@@ -4,7 +4,7 @@ import PopupForm from './popupForm';
 import PopupImage from './popupImage';
 import Profile from './profile';
 
-function initializeCards(cards) {
+function addCard(cardData, position = 'after') {
     const cardsListElement = document.querySelector('.places__list');
     const showCardPopupElement = document.querySelector(
         '.popup.popup_type_image'
@@ -19,15 +19,25 @@ function initializeCards(cards) {
         return () => PopupImage.show(showCardPopupElement, popupData);
     }
 
-    cards.forEach((cardData) => {
-        const card = Card.init(cardData);
-        const cardElement = card.create(
-            makeImageClickHandler(card),
-            card.toggleLike,
-            (element) => element.remove()
-        );
+    const card = Card.init(cardData);
+    const cardElement = card.create(
+        makeImageClickHandler(card),
+        card.toggleLike,
+        (element) => element.remove()
+    );
+
+    if (position === 'after') {
         cardsListElement.appendChild(cardElement);
-    });
+    } else {
+        cardsListElement.insertBefore(
+            cardElement,
+            cardsListElement.childNodes[0]
+        );
+    }
+}
+
+function initializeCards(cards) {
+    cards.forEach(addCard);
 }
 
 function initializeProfile() {
@@ -44,7 +54,32 @@ function initializeProfile() {
             profile.update
         );
     }
+    return profile;
+}
+
+function initializeAddCardButton(profile) {
+    const newCardPopupElement = document.querySelector(
+        '.popup.popup_type_new-card'
+    );
+    const addButtonElement = profile.element.querySelector(
+        '.profile__add-button'
+    );
+    function handleAddButtonClick() {
+        PopupForm.show(
+            newCardPopupElement,
+            document.forms['new-place'],
+            { 'place-name': '', link: '' },
+            (data) => {
+                addCard(
+                    { name: data['place-name'], link: data.link },
+                    'before'
+                );
+            }
+        );
+    }
+    addButtonElement.addEventListener('click', handleAddButtonClick);
 }
 
 initializeCards(initialCards);
-initializeProfile();
+const profile = initializeProfile();
+initializeAddCardButton(profile);
