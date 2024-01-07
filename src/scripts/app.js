@@ -1,8 +1,9 @@
 import Card from './card';
 import { initialCards } from './data';
 import PopupForm from './popupForm';
-import PopupImage from './popupImage';
 import Profile from './profile';
+
+const cardsListElement = document.querySelector('.places__list');
 
 function setAnimatedPopups() {
     document.querySelectorAll('.popup').forEach((elem) => {
@@ -11,28 +12,7 @@ function setAnimatedPopups() {
 }
 
 function addCard(cardData, position = 'after') {
-    const cardsListElement = document.querySelector('.places__list');
-    const showCardPopupElement = document.querySelector(
-        '.popup.popup_type_image'
-    );
-
-    function onImageOpen(src, alt, caption) {
-        PopupImage.show(showCardPopupElement, { src, alt, caption });
-    }
-
-    function onLikeToggle(card) {
-        card.toggleLike();
-    }
-
-    function onDeleteCommand(element) {
-        element.remove();
-    }
-
-    const card = Card.init(cardData, {
-        onImageOpen,
-        onLikeToggle,
-        onDeleteCommand,
-    });
+    const card = Card.init(cardData, { ...Card });
 
     if (position === 'after') {
         cardsListElement.appendChild(card.element);

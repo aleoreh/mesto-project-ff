@@ -1,4 +1,19 @@
+import PopupImage from './popupImage';
+
 const cardTemplate = document.querySelector('#card-template').content;
+const showCardPopupElement = document.querySelector('.popup.popup_type_image');
+
+function onImageOpen(src, alt, caption) {
+    PopupImage.show(showCardPopupElement, { src, alt, caption });
+}
+
+function onLikeToggle(card) {
+    card.toggleLike();
+}
+
+function onDeleteCommand(element) {
+    element.remove();
+}
 
 function generateAltImageText(value) {
     return `Фотография места: ${value}`;
@@ -68,4 +83,10 @@ function init({ name, link }, { onImageOpen, onLikeToggle, onDeleteCommand }) {
     return obj;
 }
 
-export default { init, generateAltImageText };
+export default {
+    init,
+    generateAltImageText,
+    onImageOpen,
+    onDeleteCommand,
+    onLikeToggle,
+};
