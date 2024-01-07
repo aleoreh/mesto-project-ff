@@ -80,6 +80,10 @@ function initializeAddCardButton(profile) {
     addButtonElement.addEventListener('click', handleAddButtonClick);
 }
 
+document.querySelectorAll('.popup').forEach((elem) => {
+    elem.classList.add('popup_is-animated');
+});
+
 initializeCards(initialCards);
 const profile = initializeProfile();
 initializeAddCardButton(profile);

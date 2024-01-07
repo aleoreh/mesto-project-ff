@@ -14,12 +14,6 @@ function show(rootElement, { src, alt, caption }) {
         captionElement.textContent = caption;
     }
 
-    function clearValues() {
-        imageElement.src = '';
-        imageElement.alt = '';
-        captionElement.textContent = '';
-    }
-
     function handleKeydown(evt) {
         switch (evt.key) {
             case 'Escape':
@@ -43,8 +37,6 @@ function show(rootElement, { src, alt, caption }) {
         rootElement.removeEventListener('click', hideRootElement);
         contentElement.removeEventListener('click', handleClickOnContent);
         closeButtonElement.removeEventListener('click', hideRootElement);
-
-        clearValues();
     }
 
     function showRootElement() {
