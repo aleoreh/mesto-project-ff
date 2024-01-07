@@ -50,7 +50,7 @@ function init({ name, link }, { onImageOpen, onLikeToggle, onDeleteCommand }) {
         titleElement.innerText = _name;
         if (_isLiked) {
             likeButtonElement.classList.add(isLikedClassName);
-        } else if (!_isLiked) {
+        } else {
             likeButtonElement.classList.remove(isLikedClassName);
         }
     }
