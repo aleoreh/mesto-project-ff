@@ -1,25 +1,34 @@
-function init(editCb) {
+function init(onEditCommand) {
     const element = document.querySelector('.profile');
     const titleElement = element.querySelector('.profile__title');
     const descriptionElement = element.querySelector('.profile__description');
     const editButtonElement = element.querySelector('.profile__edit-button');
 
-    editButtonElement.addEventListener('click', editCb);
+    let _name = titleElement.textContent;
+    let _description = descriptionElement.textContent;
 
-    return {
+    const obj = {
         get value() {
-            const name = titleElement.textContent;
-            const description = descriptionElement.textContent;
-            return { name, description };
+            return { name: _name, description: _description };
         },
-        update({ name, description }) {
-            titleElement.textContent = name;
-            descriptionElement.textContent = description;
+        set value({ name, description }) {
+            _name = name;
+            _description = description;
+            update();
         },
         get element() {
             return element;
         },
     };
+
+    function update() {
+        titleElement.textContent = _name;
+        descriptionElement.textContent = _description;
+    }
+
+    editButtonElement.addEventListener('click', onEditCommand);
+
+    return obj;
 }
 
 export default {

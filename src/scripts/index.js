@@ -10,27 +10,29 @@ function addCard(cardData, position = 'after') {
         '.popup.popup_type_image'
     );
 
-    function makeImageClickHandler(card) {
-        const popupData = {
-            src: card.value.link,
-            alt: card.generateAltImageText(),
-            caption: card.value.name,
-        };
-        return () => PopupImage.show(showCardPopupElement, popupData);
+    function onImageOpen(src, alt, caption) {
+        PopupImage.show(showCardPopupElement, { src, alt, caption });
     }
 
-    const card = Card.init(cardData);
-    const cardElement = card.create(
-        makeImageClickHandler(card),
-        card.toggleLike,
-        (element) => element.remove()
-    );
+    function onLikeToggle(card) {
+        card.toggleLike();
+    }
+
+    function onDeleteCommand(element) {
+        element.remove();
+    }
+
+    const card = Card.init(cardData, {
+        onImageOpen,
+        onLikeToggle,
+        onDeleteCommand,
+    });
 
     if (position === 'after') {
-        cardsListElement.appendChild(cardElement);
+        cardsListElement.appendChild(card.element);
     } else {
         cardsListElement.insertBefore(
-            cardElement,
+            card.element,
             cardsListElement.childNodes[0]
         );
     }
@@ -51,7 +53,9 @@ function initializeProfile() {
             editProfilePopupElement,
             document.forms['edit-profile'],
             profile.value,
-            profile.update
+            (value) => {
+                profile.value = value;
+            }
         );
     }
     return profile;

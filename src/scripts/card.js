@@ -1,38 +1,71 @@
 const cardTemplate = document.querySelector('#card-template').content;
 
-function init({ link, name }) {
-    const element = cardTemplate.querySelector('.card').cloneNode(true);
+function generateAltImageText(value) {
+    return `Фотография места: ${value}`;
+}
 
+function init({ name, link }, { onImageOpen, onLikeToggle, onDeleteCommand }) {
+    const isLikedClassName = 'card__like-button_is-active';
+    const element = cardTemplate.querySelector('.card').cloneNode(true);
     const imageElement = element.querySelector('.card__image');
     const titleElement = element.querySelector('.card__title');
     const deleteButtonElement = element.querySelector('.card__delete-button');
     const likeButtonElement = element.querySelector('.card__like-button');
 
-    function generateAltImageText() {
-        return `Фотография места: ${name}`;
-    }
+    let _name = name;
+    let _link = link;
+    let _isLiked = false;
 
-    return {
-        create(showCb, likeCb, deleteCb) {
-            imageElement.src = link;
-            imageElement.alt = generateAltImageText();
-            imageElement.addEventListener('click', showCb);
-            titleElement.innerText = name;
-            deleteButtonElement.addEventListener('click', () =>
-                deleteCb(element)
-            );
-            likeButtonElement.addEventListener('click', likeCb);
-
-            return element;
+    const obj = {
+        get value() {
+            return { name: _name, link: _link };
+        },
+        set value({ name, link }) {
+            _name = name;
+            _link = link;
+            update();
+        },
+        get isLiked() {
+            return _isLiked;
+        },
+        set isLiked(value) {
+            _isLiked = !!value;
+            update();
+        },
+        get altImageText() {
+            return generateAltImageText(name);
         },
         toggleLike() {
-            likeButtonElement.classList.toggle('card__like-button_is-active');
+            _isLiked = !_isLiked;
+            update();
         },
-        generateAltImageText,
-        get value() {
-            return { link, name };
+        get element() {
+            return element;
         },
     };
+
+    function update() {
+        imageElement.src = _link;
+        imageElement.alt = generateAltImageText(_name);
+        titleElement.innerText = _name;
+        if (_isLiked) {
+            likeButtonElement.classList.add(isLikedClassName);
+        } else if (!_isLiked) {
+            likeButtonElement.classList.remove(isLikedClassName);
+        }
+    }
+
+    imageElement.addEventListener('click', () =>
+        onImageOpen(_link, generateAltImageText(_name), _name)
+    );
+    deleteButtonElement.addEventListener('click', () =>
+        onDeleteCommand(element)
+    );
+    likeButtonElement.addEventListener('click', () => onLikeToggle(obj));
+
+    update();
+
+    return obj;
 }
 
-export default { init };
+export default { init, generateAltImageText };
