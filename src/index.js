@@ -5,7 +5,7 @@ import {
     toggleLike,
 } from './components/card';
 import { initialCards } from './components/cards';
-import { openModal, closeModal } from './components/modal';
+import { openModal, closeModal, handlePopupKeydown } from './components/modal';
 
 import './pages/index.css';
 
@@ -48,17 +48,6 @@ function clearFormData(form) {
 function closeModalAndClearForm(element, form) {
     clearFormData(form);
     closeModal(element);
-}
-
-function handlePopupKeydown(evt, element, cb) {
-    switch (evt.key) {
-        case 'Escape':
-            closeModal(element);
-            cb();
-            break;
-        default:
-            break;
-    }
 }
 
 addCardElement.addEventListener('click', () => {
