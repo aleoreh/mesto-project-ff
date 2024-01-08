@@ -1,11 +1,11 @@
 {
     "name": "mesto-project-ff",
-    "version": "3",
+    "version": "4",
     "description": "Яндекс Практикум. Проектная работа «Mesto»",
     "scripts": {
         "dev": "webpack serve",
         "build": "webpack --mode=production",
-        "live-server": "live-server dist --no-browser --port=8081"
+        "live-server": "live-server dist --port=8081"
     },
     "author": "Aleksey Orekhov",
     "license": "ISC",
