@@ -3,7 +3,9 @@ const isLikedClassName = 'card__like-button_is-active';
 export function createCardElement(
     template,
     { link, name },
-    { remove, like, show }
+    remove,
+    like,
+    show
 ) {
     const cardElement = template.querySelector('.card').cloneNode(true);
 
