@@ -12,6 +12,10 @@ function show(rootElement, { src, alt, caption }) {
         imageElement.src = src;
         imageElement.alt = alt;
         captionElement.textContent = caption;
+        closeButtonElement.setAttribute(
+            'aria-label',
+            `Закрыть просмотр: ${caption}`
+        );
     }
 
     function handleKeydown(evt) {

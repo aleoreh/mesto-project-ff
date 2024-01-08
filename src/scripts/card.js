@@ -73,10 +73,15 @@ function init({ name, link }, { onImageOpen, onLikeToggle, onDeleteCommand }) {
     imageElement.addEventListener('click', () =>
         onImageOpen(_link, generateAltImageText(_name), _name)
     );
+    deleteButtonElement.setAttribute(
+        'aria-label',
+        `Удалить карточку "${_name}"`
+    );
     deleteButtonElement.addEventListener('click', () =>
         onDeleteCommand(element)
     );
     likeButtonElement.addEventListener('click', () => onLikeToggle(obj));
+    likeButtonElement.setAttribute('aria-label', `Поставить like для: ${_name}`);
 
     update();
 

@@ -6,6 +6,8 @@ function show(rootElement, form, formData, onSubmit) {
     const contentElement = rootElement.querySelector('.popup__content');
     const closeButtonElement = rootElement.querySelector('.popup__close');
     const firstInputElement = rootElement.querySelector('input');
+    const titleElement = rootElement.querySelector('.popup__title');
+    const title = titleElement ? titleElement.textContent : '';
 
     function setFormData() {
         Object.keys(formData).forEach((key) => {
@@ -81,9 +83,15 @@ function show(rootElement, form, formData, onSubmit) {
         if (firstInputElement) firstInputElement.select();
     }
 
+    closeButtonElement.setAttribute(
+        'aria-label',
+        `Закрыть форму: ${title}`
+    );
+
     showRootElement();
     setFocus();
     selectText();
 }
 
 export default { show };
+
