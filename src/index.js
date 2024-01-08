@@ -9,7 +9,6 @@ import { openModal, closeModal } from './components/modal';
 
 import './pages/index.css';
 
-const cardTemplate = document.querySelector('#card-template').content;
 const cardsListElement = document.querySelector('.places__list');
 const addCardElement = document.querySelector('.profile__add-button');
 const popupAddCardElement = document.querySelector(
@@ -79,7 +78,6 @@ function openImage(cardData) {
 
 function addCard(cardData, position = 'after') {
     const cardElement = createCardElement(
-        cardTemplate,
         cardData,
         removeCardElement,
         toggleLike,
