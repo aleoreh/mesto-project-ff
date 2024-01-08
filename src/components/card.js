@@ -3,9 +3,7 @@ const isLikedClassName = 'card__like-button_is-active';
 export function createCardElement(
     template,
     { link, name },
-    deleteCardElement,
-    toggleLike,
-    openImage
+    { remove, like, show }
 ) {
     const cardElement = template.querySelector('.card').cloneNode(true);
 
@@ -17,15 +15,19 @@ export function createCardElement(
     const toggleLikeElement = cardElement.querySelector('.card__like-button');
 
     imageElement.src = link;
-    imageElement.alt = `Фотография места: ${name}`;
+    imageElement.alt = generateAltImageText(name);
     titleElement.innerText = name;
-    deleteButtonElement.addEventListener('click', () =>
-        deleteCardElement(cardElement)
+    deleteButtonElement.addEventListener('click', () => remove(cardElement));
+    deleteButtonElement.setAttribute(
+        'aria-label',
+        `Удалить карточку "${name}"`
     );
     toggleLikeElement.addEventListener('click', () => {
-        toggleLike(toggleLikeElement);
+        like(toggleLikeElement);
     });
-    imageElement.addEventListener('click', () => openImage({ link, name }));
+    toggleLikeElement.setAttribute('aria-label', `Поставить like для: ${name}`);
+    imageElement.addEventListener('click', () => show({ link, name }));
+
     return cardElement;
 }
 

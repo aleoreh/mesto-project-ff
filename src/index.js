@@ -4,7 +4,7 @@ import {
     removeCardElement,
     toggleLike,
 } from './components/card';
-import { initialCards } from './cards';
+import { initialCards } from './components/cards';
 import { openModal, closeModal } from './components/modal';
 
 import './pages/index.css';
@@ -46,7 +46,7 @@ function clearFormData(form) {
     }
 }
 
-function closeModalWithClear(element, form) {
+function closeModalAndClearForm(element, form) {
     clearFormData(form);
     closeModal(element);
 }
@@ -77,7 +77,7 @@ popupProfileElement.addEventListener('keydown', (evt) => {
 });
 
 popupProfileElement.addEventListener('click', () => {
-    closeModalWithClear(popupProfileElement, popupProfileForm);
+    closeModalAndClearForm(popupProfileElement, popupProfileForm);
 });
 
 popupProfileElement
@@ -89,14 +89,14 @@ popupProfileElement
 popupProfileElement
     .querySelector('.popup__close')
     .addEventListener('click', () => {
-        closeModalWithClear(popupProfileElement, popupProfileForm);
+        closeModalAndClearForm(popupProfileElement, popupProfileForm);
     });
 
 function handleProfileSubmit(evt) {
     evt.preventDefault();
     profileTitleElement.textContent = popupProfileForm.name.value;
     profileDescriptionElement.textContent = popupProfileForm.description.value;
-    closeModalWithClear(popupProfileElement, popupProfileForm);
+    closeModalAndClearForm(popupProfileElement, popupProfileForm);
 }
 
 popupProfileForm.addEventListener('submit', handleProfileSubmit);
@@ -136,7 +136,7 @@ popupAddCardElement.addEventListener('keydown', (evt) => {
 });
 
 popupAddCardElement.addEventListener('click', () => {
-    closeModalWithClear(popupAddCardElement, popupAddCardForm);
+    closeModalAndClearForm(popupAddCardElement, popupAddCardForm);
 });
 
 popupAddCardElement
@@ -148,7 +148,7 @@ popupAddCardElement
 popupAddCardElement
     .querySelector('.popup__close')
     .addEventListener('click', () => {
-        closeModalWithClear(popupAddCardElement, popupAddCardForm);
+        closeModalAndClearForm(popupAddCardElement, popupAddCardForm);
     });
 
 function openImage(cardData) {
@@ -159,13 +159,11 @@ function openImage(cardData) {
 }
 
 function addCard(cardData, position = 'after') {
-    const cardElement = createCardElement(
-        cardTemplate,
-        cardData,
-        removeCardElement,
-        toggleLike,
-        openImage
-    );
+    const cardElement = createCardElement(cardTemplate, cardData, {
+        remove: removeCardElement,
+        like: toggleLike,
+        show: openImage,
+    });
 
     if (position === 'after') {
         cardsListElement.appendChild(cardElement);
@@ -183,11 +181,15 @@ function handleAddCardSubmit(evt) {
         },
         'before'
     );
-    closeModalWithClear(popupAddCardElement, popupAddCardForm);
+    closeModalAndClearForm(popupAddCardElement, popupAddCardForm);
 }
 
 popupAddCardForm.addEventListener('submit', handleAddCardSubmit);
 
 initialCards.forEach((card) => {
     addCard(card);
+});
+
+document.querySelectorAll('.popup').forEach((elem) => {
+    elem.classList.add('popup_is-animated');
 });
