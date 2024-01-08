@@ -1,6 +1,6 @@
 {
     "name": "mesto-project-ff",
-    "version": "3",
+    "version": "4",
     "description": "Яндекс Практикум. Проектная работа «Mesto»",
     "scripts": {
         "dev": "webpack serve",
