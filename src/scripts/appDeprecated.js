@@ -1,5 +1,4 @@
-import Card from './card';
-import { initialCards } from './data';
+import Card from './cardDeprecated';
 import PopupForm from './popupForm';
 import Profile from './profile';
 
@@ -17,10 +16,7 @@ function addCard(cardData, position = 'after') {
     if (position === 'after') {
         cardsListElement.appendChild(card.element);
     } else {
-        cardsListElement.insertBefore(
-            card.element,
-            cardsListElement.childNodes[0]
-        );
+        cardsListElement.prepend(card.element);
     }
 }
 
@@ -75,3 +71,4 @@ setAnimatedPopups();
 initializeCards(initialCards);
 const profile = initializeProfile();
 initializeAddCardButton(profile);
+
