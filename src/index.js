@@ -5,7 +5,7 @@ import {
     toggleLike,
 } from './components/card';
 import { initialCards } from './components/cards';
-import { openModal, closeModal } from './components/modal';
+import { closeModal, openModal } from './components/modal';
 
 import './pages/index.css';
 
@@ -45,19 +45,6 @@ function clearFormData(form) {
     }
 }
 
-function closeModalAndClearForm(element, form) {
-    clearFormData(form);
-    closeModal(element);
-}
-
-addCardElement.addEventListener('click', () => {
-    setFormData(popupAddCardForm, {
-        'place-name': '',
-        link: '',
-    });
-    openModal(popupAddCardElement);
-});
-
 function openImage(cardData) {
     popupShowCardImageElement.alt = generateAltImageText(cardData.name);
     popupShowCardImageElement.src = cardData.link;
@@ -65,23 +52,26 @@ function openImage(cardData) {
     openModal(popupShowCardElement);
 }
 
-function addCard(cardData, position = 'after') {
+initialCards.forEach((cardData) => {
     const cardElement = createCardElement(
         cardData,
         removeCardElement,
         toggleLike,
         openImage
     );
+    cardsListElement.appendChild(cardElement);
+});
 
-    if (position === 'after') {
-        cardsListElement.appendChild(cardElement);
-    } else {
-        cardsListElement.prepend(cardElement);
-    }
-}
+document.querySelectorAll('.popup').forEach((elem) => {
+    elem.classList.add('popup_is-animated');
+});
 
-initialCards.forEach((card) => {
-    addCard(card);
+addCardElement.addEventListener('click', () => {
+    setFormData(popupAddCardForm, {
+        'place-name': '',
+        link: '',
+    });
+    openModal(popupAddCardElement);
 });
 
 profileEditButtonElement.addEventListener('click', () => {
@@ -92,66 +82,30 @@ profileEditButtonElement.addEventListener('click', () => {
     openModal(popupProfileElement);
 });
 
-document.querySelectorAll('.popup').forEach((elem) => {
-    elem.classList.add('popup_is-animated');
-});
-
-popupShowCardElement.addEventListener('click', () => {
-    closeModal(popupShowCardElement);
-});
-
-popupShowCardElement
-    .querySelector('.popup__content')
-    .addEventListener('click', (evt) => {
-        evt.stopPropagation();
-    });
-
-popupShowCardElement
-    .querySelector('.popup__close')
-    .addEventListener('click', () => {
-        closeModal(popupShowCardElement);
-    });
-
-function popupClickHandler(element, form) {
-    closeModalAndClearForm(element, form);
-}
-
-// function popupContentClickHandler(evt) {
-//     evt.stopPropagation();
-// }
-
-function popupCloseClickHandler(element, form) {
-    closeModalAndClearForm(element, form);
-}
-
-[
-    [popupProfileElement, popupProfileForm],
-    [popupAddCardElement, popupAddCardForm],
-].forEach(([element, form]) => {
-    element.querySelector('.popup__close').addEventListener('click', () => {
-        popupCloseClickHandler(element, form);
-    });
-});
-
 function handleProfileSubmit(evt) {
     evt.preventDefault();
     profileTitleElement.textContent = popupProfileForm.name.value;
     profileDescriptionElement.textContent = popupProfileForm.description.value;
-    closeModalAndClearForm(popupProfileElement, popupProfileForm);
+    clearFormData(popupProfileForm);
+    closeModal(popupProfileElement);
 }
 
 popupProfileForm.addEventListener('submit', handleProfileSubmit);
 
 function handleAddCardSubmit(evt) {
     evt.preventDefault();
-    addCard(
+    const cardElement = createCardElement(
         {
             name: popupAddCardForm['place-name'].value,
             link: popupAddCardForm.link.value,
         },
-        'before'
+        removeCardElement,
+        toggleLike,
+        openImage
     );
-    closeModalAndClearForm(popupAddCardElement, popupAddCardForm);
+    cardsListElement.prepend(cardElement);
+    clearFormData(popupAddCardForm);
+    closeModal(popupAddCardElement);
 }
 
 popupAddCardForm.addEventListener('submit', handleAddCardSubmit);

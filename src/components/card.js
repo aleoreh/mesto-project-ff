@@ -7,19 +7,19 @@ export function createCardElement(
     like,
     show
 ) {
-    const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+    const element = cardTemplate.querySelector('.card').cloneNode(true);
 
-    const imageElement = cardElement.querySelector('.card__image');
-    const titleElement = cardElement.querySelector('.card__title');
-    const deleteButtonElement = cardElement.querySelector(
+    const imageElement = element.querySelector('.card__image');
+    const titleElement = element.querySelector('.card__title');
+    const deleteButtonElement = element.querySelector(
         '.card__delete-button'
     );
-    const toggleLikeElement = cardElement.querySelector('.card__like-button');
+    const toggleLikeElement = element.querySelector('.card__like-button');
 
     imageElement.src = link;
     imageElement.alt = generateAltImageText(name);
     titleElement.innerText = name;
-    deleteButtonElement.addEventListener('click', () => remove(cardElement));
+    deleteButtonElement.addEventListener('click', () => remove(element));
     deleteButtonElement.setAttribute(
         'aria-label',
         `Удалить карточку "${name}"`
@@ -30,7 +30,7 @@ export function createCardElement(
     toggleLikeElement.setAttribute('aria-label', `Поставить like для: ${name}`);
     imageElement.addEventListener('click', () => show({ link, name }));
 
-    return cardElement;
+    return element;
 }
 
 export function toggleLike(toggleLikeElement) {
