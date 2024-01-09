@@ -116,9 +116,9 @@ function popupClickHandler(element, form) {
     closeModalAndClearForm(element, form);
 }
 
-function popupContentClickHandler(evt) {
-    evt.stopPropagation();
-}
+// function popupContentClickHandler(evt) {
+//     evt.stopPropagation();
+// }
 
 function popupCloseClickHandler(element, form) {
     closeModalAndClearForm(element, form);
@@ -128,12 +128,6 @@ function popupCloseClickHandler(element, form) {
     [popupProfileElement, popupProfileForm],
     [popupAddCardElement, popupAddCardForm],
 ].forEach(([element, form]) => {
-    element.addEventListener('click', () => {
-        popupClickHandler(element, form);
-    });
-    element
-        .querySelector('.popup__content')
-        .addEventListener('click', popupContentClickHandler);
     element.querySelector('.popup__close').addEventListener('click', () => {
         popupCloseClickHandler(element, form);
     });
