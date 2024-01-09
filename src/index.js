@@ -103,9 +103,9 @@ function handleAddCardSubmit(evt) {
         toggleLike,
         openImage
     );
-    cardsListElement.prepend(cardElement);
     clearFormData(popupAddCardForm);
     closeModal(popupAddCardElement);
+    cardsListElement.prepend(cardElement);
 }
 
 popupAddCardForm.addEventListener('submit', handleAddCardSubmit);
