@@ -1,13 +1,15 @@
 const isOpenedClassName = 'popup_is-opened';
+const popupCloseClassName = 'popup__close';
+const popupContentClassName = 'popup__content';
 
 export function openModal(element) {
     const firstInputElement = element.querySelector('input');
-    const closeButtonElement = element.querySelector('.popup__close');
+    const closeButtonElement = element.querySelector(`.${popupCloseClassName}`);
 
-    closeButtonElement.setAttribute('aria-label', 'Закрыть форму');
     element.classList.add(isOpenedClassName);
     element.tabIndex = element.tabIndex === -1 ? 0 : element.tabIndex;
     (firstInputElement || closeButtonElement || element).focus();
+    closeButtonElement.setAttribute('aria-label', 'Закрыть форму');
 
     element.addEventListener('keydown', keydownHandler);
     element.addEventListener('click', clickHandler);
@@ -17,7 +19,7 @@ export function closeModal(element) {
     element.classList.remove(isOpenedClassName);
 
     element.removeEventListener('keydown', keydownHandler);
-    element.addEventListener('click', clickHandler);
+    element.removeEventListener('click', clickHandler);
 }
 
 function keydownHandler(evt) {
@@ -31,11 +33,12 @@ function keydownHandler(evt) {
 }
 
 function clickHandler(evt) {
-    const contentElement = this.querySelector('.popup__content');
-    const closeButtonElement = this.querySelector('.popup__close');
-    if (evt.target === contentElement) {
+    if (evt.target.classList.contains(popupContentClassName)) {
         evt.stopPropagation();
-    } else if (evt.target === this || evt.target === closeButtonElement) {
+    } else if (
+        evt.target === this ||
+        evt.target.classList.contains(popupCloseClassName)
+    ) {
         closeModal(this);
     }
 }
