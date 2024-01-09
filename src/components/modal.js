@@ -1,24 +1,24 @@
 const isOpenedClassName = 'popup_is-opened';
 
-export function openModal(rootElement) {
-    const firstInputElement = rootElement.querySelector('input');
-    const closeButtonElement = rootElement.querySelector('.popup__close');
+export function openModal(element) {
+    const firstInputElement = element.querySelector('input');
+    const closeButtonElement = element.querySelector('.popup__close');
     closeButtonElement.setAttribute('aria-label', 'Закрыть форму');
-    rootElement.classList.add(isOpenedClassName);
-    rootElement.tabIndex =
-        rootElement.tabIndex === -1 ? 0 : rootElement.tabIndex;
-    (firstInputElement || closeButtonElement || rootElement).focus();
+    element.classList.add(isOpenedClassName);
+    element.tabIndex = element.tabIndex === -1 ? 0 : element.tabIndex;
+    (firstInputElement || closeButtonElement || element).focus();
+    element.addEventListener('keydown', modalKeydownHandler);
 }
 
-export function closeModal(rootElement) {
-    rootElement.classList.remove(isOpenedClassName);
+export function closeModal(element) {
+    element.classList.remove(isOpenedClassName);
+    element.removeEventListener('keydown', modalKeydownHandler);
 }
 
-export function handlePopupKeydown(evt, element, cb) {
+export function modalKeydownHandler(evt) {
     switch (evt.key) {
         case 'Escape':
-            closeModal(element);
-            cb();
+            closeModal(this);
             break;
         default:
             break;

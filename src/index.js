@@ -5,7 +5,7 @@ import {
     toggleLike,
 } from './components/card';
 import { initialCards } from './components/cards';
-import { openModal, closeModal, handlePopupKeydown } from './components/modal';
+import { openModal, closeModal } from './components/modal';
 
 import './pages/index.css';
 
@@ -96,10 +96,6 @@ document.querySelectorAll('.popup').forEach((elem) => {
     elem.classList.add('popup_is-animated');
 });
 
-popupShowCardElement.addEventListener('keydown', (evt) => {
-    handlePopupKeydown(evt, popupShowCardElement, () => {});
-});
-
 popupShowCardElement.addEventListener('click', () => {
     closeModal(popupShowCardElement);
 });
@@ -115,10 +111,6 @@ popupShowCardElement
     .addEventListener('click', () => {
         closeModal(popupShowCardElement);
     });
-
-function popupKeydownHandler(evt, element, form) {
-    handlePopupKeydown(evt, element, () => clearFormData(form));
-}
 
 function popupClickHandler(element, form) {
     closeModalAndClearForm(element, form);
@@ -136,9 +128,6 @@ function popupCloseClickHandler(element, form) {
     [popupProfileElement, popupProfileForm],
     [popupAddCardElement, popupAddCardForm],
 ].forEach(([element, form]) => {
-    element.addEventListener('keydown', (evt) => {
-        popupKeydownHandler(evt, element, form);
-    });
     element.addEventListener('click', () => {
         popupClickHandler(element, form);
     });
