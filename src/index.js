@@ -5,7 +5,7 @@ import {
     toggleLike,
 } from './components/card';
 import { initialCards } from './components/cards';
-import { openModal, closeModal } from './components/modal';
+import { closeModal, openModal } from './components/modal';
 
 import './pages/index.css';
 
@@ -45,20 +45,11 @@ function clearFormData(form) {
     }
 }
 
-function closeModalAndClearForm(element, form) {
-    clearFormData(form);
-    closeModal(element);
-}
-
-function handlePopupKeydown(evt, element, cb) {
-    switch (evt.key) {
-        case 'Escape':
-            closeModal(element);
-            cb();
-            break;
-        default:
-            break;
-    }
+function openImage(cardData) {
+    popupShowCardImageElement.alt = generateAltImageText(cardData.name);
+    popupShowCardImageElement.src = cardData.link;
+    popupShowImageCaptionElement.textContent = cardData.name;
+    openModal(popupShowCardElement);
 }
 
 addCardElement.addEventListener('click', () => {
@@ -69,32 +60,6 @@ addCardElement.addEventListener('click', () => {
     openModal(popupAddCardElement);
 });
 
-function openImage(cardData) {
-    popupShowCardImageElement.alt = generateAltImageText(cardData.name);
-    popupShowCardImageElement.src = cardData.link;
-    popupShowImageCaptionElement.textContent = cardData.name;
-    openModal(popupShowCardElement);
-}
-
-function addCard(cardData, position = 'after') {
-    const cardElement = createCardElement(
-        cardData,
-        removeCardElement,
-        toggleLike,
-        openImage
-    );
-
-    if (position === 'after') {
-        cardsListElement.appendChild(cardElement);
-    } else {
-        cardsListElement.prepend(cardElement);
-    }
-}
-
-initialCards.forEach((card) => {
-    addCard(card);
-});
-
 profileEditButtonElement.addEventListener('click', () => {
     setFormData(popupProfileForm, {
         name: profileTitleElement.textContent,
@@ -103,83 +68,40 @@ profileEditButtonElement.addEventListener('click', () => {
     openModal(popupProfileElement);
 });
 
-document.querySelectorAll('.popup').forEach((elem) => {
-    elem.classList.add('popup_is-animated');
-});
-
-popupShowCardElement.addEventListener('keydown', (evt) => {
-    handlePopupKeydown(evt, popupShowCardElement, () => {});
-});
-
-popupShowCardElement.addEventListener('click', () => {
-    closeModal(popupShowCardElement);
-});
-
-popupShowCardElement
-    .querySelector('.popup__content')
-    .addEventListener('click', (evt) => {
-        evt.stopPropagation();
-    });
-
-popupShowCardElement
-    .querySelector('.popup__close')
-    .addEventListener('click', () => {
-        closeModal(popupShowCardElement);
-    });
-
-function popupKeydownHandler(evt, element, form) {
-    handlePopupKeydown(evt, element, () => clearFormData(form));
-}
-
-function popupClickHandler(element, form) {
-    closeModalAndClearForm(element, form);
-}
-
-function popupContentClickHandler(evt) {
-    evt.stopPropagation();
-}
-
-function popupCloseClickHandler(element, form) {
-    closeModalAndClearForm(element, form);
-}
-
-[
-    [popupProfileElement, popupProfileForm],
-    [popupAddCardElement, popupAddCardForm],
-].forEach(([element, form]) => {
-    element.addEventListener('keydown', (evt) => {
-        popupKeydownHandler(evt, element, form);
-    });
-    element.addEventListener('click', () => {
-        popupClickHandler(element, form);
-    });
-    element
-        .querySelector('.popup__content')
-        .addEventListener('click', popupContentClickHandler);
-    element.querySelector('.popup__close').addEventListener('click', () => {
-        popupCloseClickHandler(element, form);
-    });
-});
-
-function handleProfileSubmit(evt) {
+popupProfileForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     profileTitleElement.textContent = popupProfileForm.name.value;
     profileDescriptionElement.textContent = popupProfileForm.description.value;
-    closeModalAndClearForm(popupProfileElement, popupProfileForm);
-}
+    clearFormData(popupProfileForm);
+    closeModal(popupProfileElement);
+});
 
-popupProfileForm.addEventListener('submit', handleProfileSubmit);
-
-function handleAddCardSubmit(evt) {
+popupAddCardForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    addCard(
+    const cardElement = createCardElement(
         {
             name: popupAddCardForm['place-name'].value,
             link: popupAddCardForm.link.value,
         },
-        'before'
+        removeCardElement,
+        toggleLike,
+        openImage
     );
-    closeModalAndClearForm(popupAddCardElement, popupAddCardForm);
-}
+    clearFormData(popupAddCardForm);
+    closeModal(popupAddCardElement);
+    cardsListElement.prepend(cardElement);
+});
 
-popupAddCardForm.addEventListener('submit', handleAddCardSubmit);
+document.querySelectorAll('.popup').forEach((elem) => {
+    elem.classList.add('popup_is-animated');
+});
+
+initialCards.forEach((cardData) => {
+    const cardElement = createCardElement(
+        cardData,
+        removeCardElement,
+        toggleLike,
+        openImage
+    );
+    cardsListElement.appendChild(cardElement);
+});
