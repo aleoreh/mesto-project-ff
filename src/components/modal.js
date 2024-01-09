@@ -42,3 +42,4 @@ function clickHandler(evt) {
         closeModal(this);
     }
 }
+

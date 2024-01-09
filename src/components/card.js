@@ -1,19 +1,12 @@
 const cardTemplate = document.querySelector('#card-template').content;
 const isLikedClassName = 'card__like-button_is-active';
 
-export function createCardElement(
-    { link, name },
-    remove,
-    like,
-    show
-) {
+export function createCardElement({ link, name }, remove, like, show) {
     const element = cardTemplate.querySelector('.card').cloneNode(true);
 
     const imageElement = element.querySelector('.card__image');
     const titleElement = element.querySelector('.card__title');
-    const deleteButtonElement = element.querySelector(
-        '.card__delete-button'
-    );
+    const deleteButtonElement = element.querySelector('.card__delete-button');
     const toggleLikeElement = element.querySelector('.card__like-button');
 
     imageElement.src = link;
