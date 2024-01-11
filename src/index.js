@@ -68,8 +68,7 @@ function handleEditProfileButtonClick() {
 }
 
 function handleAddButtonClick() {
-    newPlacePlaceNameInputElement.value = '';
-    newPlaceLinkInputElement.value = '';
+    newPlaceFormElement.reset();
     openModal(popupNewCardElement);
 }
 
@@ -83,8 +82,7 @@ function handleProfileFormSubmit(evt) {
     profileDescriptionElement.textContent = description;
 
     closeModal(popupEditElement);
-    editProfileNameInputElement.value = '';
-    editProfileDescriptionInputElement.value = '';
+    editProfileFormElement.reset();
 }
 
 function handleNewPlaceFormSubmit(evt) {
