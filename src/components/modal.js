@@ -2,6 +2,10 @@ const isOpenedClassName = 'popup_is-opened';
 const popupCloseClassName = 'popup__close';
 const popupContentClassName = 'popup__content';
 
+const popupCloseButtonElements = document.querySelectorAll(
+    `.${popupCloseClassName}`
+);
+
 export function openModal(element) {
     const firstInputElement = element.querySelector('input');
     const closeButtonElement = element.querySelector(`.${popupCloseClassName}`);
@@ -9,7 +13,6 @@ export function openModal(element) {
     element.classList.add(isOpenedClassName);
     element.tabIndex = element.tabIndex === -1 ? 0 : element.tabIndex;
     (firstInputElement || closeButtonElement || element).focus();
-    closeButtonElement.setAttribute('aria-label', 'Закрыть форму');
 
     element.addEventListener('keydown', keydownHandler);
     element.addEventListener('click', clickHandler);
@@ -43,3 +46,6 @@ function clickHandler(evt) {
     }
 }
 
+popupCloseButtonElements.forEach((closeButtonElement) => {
+    closeButtonElement.setAttribute('aria-label', 'Закрыть форму');
+});
