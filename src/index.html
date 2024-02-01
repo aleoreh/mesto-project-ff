@@ -56,6 +56,7 @@
                     <h3 class="popup__title">Редактировать профиль</h3>
                     <form class="popup__form" name="edit-profile" novalidate>
                         <input
+                            id="name"
                             type="text"
                             name="name"
                             class="popup__input popup__input_type_name"
@@ -64,7 +65,9 @@
                             minlength="2"
                             maxlength="40"
                         />
+                        <span class="name-input-error"></span>
                         <input
+                            id="description"
                             type="text"
                             name="description"
                             class="popup__input popup__input_type_description"
@@ -73,6 +76,7 @@
                             minlength="2"
                             maxlength="40"
                         />
+                        <span class="description-input-error"></span>
                         <button type="submit" class="button popup__button">
                             Сохранить
                         </button>
@@ -125,4 +129,3 @@
         </template>
     </body>
 </html>
-

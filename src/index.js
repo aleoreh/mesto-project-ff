@@ -6,6 +6,7 @@ import {
 } from './components/card';
 import { initialCards } from './components/cards';
 import { closeModal, openModal } from './components/modal';
+import { enableValidation } from './components/validation';
 
 import './pages/index.css';
 
@@ -128,4 +129,13 @@ initialCards.forEach((cardData) => {
         openImage
     );
     cardsListElement.appendChild(cardElement);
+});
+
+enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible',
 });
