@@ -1,9 +1,4 @@
-.name-error {
-    display: block;
-    color: red;
-}
-
-.description-error {
-    display: block;
-    color: red;
+.popup__error-text {
+  display: block;
+  color: red;
 }

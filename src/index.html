@@ -56,7 +56,7 @@
                     <h3 class="popup__title">Редактировать профиль</h3>
                     <form class="popup__form" name="edit-profile" novalidate>
                         <input
-                            id="name"
+                            id="nameInput"
                             type="text"
                             name="name"
                             class="popup__input popup__input_type_name"
@@ -65,9 +65,9 @@
                             minlength="2"
                             maxlength="40"
                         />
-                        <span class="name-input-error"></span>
+                        <span class="popup__error-text nameInput-error"></span>
                         <input
-                            id="description"
+                            id="descriptionInput"
                             type="text"
                             name="description"
                             class="popup__input popup__input_type_description"
@@ -76,7 +76,7 @@
                             minlength="2"
                             maxlength="40"
                         />
-                        <span class="description-input-error"></span>
+                        <span class="popup__error-text descriptionInput-error"></span>
                         <button type="submit" class="button popup__button">
                             Сохранить
                         </button>
@@ -89,19 +89,23 @@
                     <h3 class="popup__title">Новое место</h3>
                     <form class="popup__form" name="new-place">
                         <input
+                            id="placeNameInput"
                             type="text"
                             name="place-name"
                             class="popup__input popup__input_type_card-name"
                             placeholder="Название"
                             required
                         />
+                        <span class="popup__error-text placeNameInput-error"></span>
                         <input
+                            id="urlInput"
                             type="url"
                             name="link"
                             class="popup__input popup__input_type_url"
                             placeholder="Ссылка на картинку"
                             required
                         />
+                        <span class="popup__error-text urlInput-error"></span>
                         <button type="submit" class="button popup__button">
                             Сохранить
                         </button>

@@ -2,15 +2,19 @@ const inputErrorClass = 'input-error';
 const errorElementActiveClass = 'error-active';
 
 function showInputError(formElement, inputElement, errorMessage) {
-    console.log('showInputError', formElement, inputElement, errorMessage);
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    const errorSelector = `.${inputElement.id}-error`;
+    const errorElement = formElement.querySelector(errorSelector);
     inputElement.classList.add(inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(errorElementActiveClass);
 }
 
 function hideInputError(formElement, inputElement) {
-    console.log('hideInputError', formElement, inputElement);
+    const errorSelector = `.${inputElement.id}-error`;
+    const errorElement = formElement.querySelector(errorSelector);
+    inputElement.classList.add(inputErrorClass);
+    errorElement.textContent = '';
+    errorElement.classList.add(errorElementActiveClass);
 }
 
 function checkInputValidity(formElement, inputElement) {
@@ -40,7 +44,7 @@ function enableValidation({
         formElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
         });
-        const inputElements = document.querySelectorAll(inputSelector);
+        const inputElements = formElement.querySelectorAll(inputSelector);
         Array.from(inputElements).forEach((inputElement) => {
             inputElement.addEventListener('input', () => {
                 checkInputValidity(formElement, inputElement);
