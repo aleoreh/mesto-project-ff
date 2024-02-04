@@ -1,37 +1,47 @@
-const inputErrorClass = 'input-error';
-const errorElementActiveClass = 'error-active';
+function isValid(inputElement) {
+    return inputElement.validity.valid;
+}
 
-function showInputError(formElement, inputElement, errorMessage) {
+function showInputError({
+    formElement,
+    inputElement,
+    errorMessage,
+    inputErrorClass,
+    errorClass,
+}) {
     const errorSelector = `.${inputElement.id}-error`;
     const errorElement = formElement.querySelector(errorSelector);
     inputElement.classList.add(inputErrorClass);
     errorElement.textContent = errorMessage;
-    errorElement.classList.add(errorElementActiveClass);
+    errorElement.classList.add(errorClass);
 }
 
-function hideInputError(formElement, inputElement) {
+function hideInputError({
+    formElement,
+    inputElement,
+    inputErrorClass,
+    errorClass,
+}) {
     const errorSelector = `.${inputElement.id}-error`;
     const errorElement = formElement.querySelector(errorSelector);
-    inputElement.classList.add(inputErrorClass);
+    inputElement.classList.remove(inputErrorClass);
     errorElement.textContent = '';
-    errorElement.classList.add(errorElementActiveClass);
+    errorElement.classList.remove(errorClass);
 }
 
-function checkInputValidity(formElement, inputElement) {
-    inputElement.setCustomValidity(
-        inputElement.validity.patternMismatch
-            ? inputElement.dataset.errorMessage
-            : ''
-    );
-    if (!inputElement.validity.valid) {
-        showInputError(
+function clearValidation(
+    formElement,
+    { inputSelector, inputErrorClass, errorClass }
+) {
+    const inputElements = formElement.querySelectorAll(inputSelector);
+    Array.from(inputElements).forEach((inputElement) => {
+        hideInputError({
             formElement,
             inputElement,
-            inputElement.validationMessage
-        );
-    } else {
-        hideInputError(formElement, inputElement);
-    }
+            inputErrorClass,
+            errorClass,
+        });
+    });
 }
 
 function enableValidation({
@@ -42,20 +52,56 @@ function enableValidation({
     inputErrorClass,
     errorClass,
 }) {
-    const formElements = document.querySelectorAll(formSelector);
-    Array.from(formElements).forEach((formElement) => {
+    function setSubmitAvailability(inputElements, targetElement) {
+        targetElement.classList.toggle(
+            inactiveButtonClass,
+            Array.from(inputElements).every(isValid)
+        );
+    }
+
+    const formElementsArr = Array.from(document.querySelectorAll(formSelector));
+
+    formElementsArr.forEach((formElement) => {
         // TODO: preventDefault назначены в другом месте;
         // разобраться, где оставить
         formElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
         });
-        const inputElements = formElement.querySelectorAll(inputSelector);
-        Array.from(inputElements).forEach((inputElement) => {
-            inputElement.addEventListener('input', () => {
-                checkInputValidity(formElement, inputElement);
+
+        const submitButtonElement =
+            formElement.querySelector(submitButtonSelector);
+        const inputElementsArr = Array.from(
+            formElement.querySelectorAll(inputSelector)
+        );
+
+        inputElementsArr.forEach((inputElement) => {
+            inputElement.addEventListener('input', (evt) => {
+                inputElement.setCustomValidity(
+                    inputElement.validity.patternMismatch
+                        ? inputElement.dataset.errorMessage
+                        : ''
+                );
+                if (isValid(evt.target)) {
+                    hideInputError({
+                        formElement,
+                        inputElement,
+                        inputErrorClass,
+                        errorClass,
+                    });
+                } else {
+                    showInputError({
+                        formElement,
+                        inputElement,
+                        errorMessage: inputElement.validationMessage,
+                        inputErrorClass,
+                        errorClass,
+                    });
+                }
             });
         });
+        // debugger;
+        setSubmitAvailability(inputElementsArr, submitButtonElement);
     });
 }
 
-export { enableValidation };
+export { enableValidation, clearValidation };

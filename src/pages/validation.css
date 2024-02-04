@@ -1,4 +1,19 @@
-.popup__error-text {
+.popup__error {
+    display: none;
+    color: red;
+}
+
+.popup__error_visible {
   display: block;
-  color: red;
+}
+
+.popup__input_type_error {
+  outline: 1px solid red;
+}
+
+.button-inactive {
+    color: #b8b8b8;
+    background: #ededed;
+    pointer-events: none;
+    user-select: none;
 }

@@ -6,7 +6,7 @@ import {
 } from './components/card';
 import { initialCards } from './components/cards';
 import { closeModal, openModal } from './components/modal';
-import { enableValidation } from './components/validation';
+import { clearValidation, enableValidation } from './components/validation';
 
 import './pages/index.css';
 
@@ -54,6 +54,15 @@ const popupShowCardImageElement =
 const popupShowCardCaptionElement =
     popupShowCardElement.querySelector('.popup__caption');
 
+const validationSettings = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible',
+};
+
 function openImage(cardData) {
     popupShowCardImageElement.alt = generateAltImageText(cardData.name);
     popupShowCardImageElement.src = cardData.link;
@@ -66,11 +75,19 @@ function handleEditProfileButtonClick() {
     editProfileDescriptionInputElement.value =
         profileDescriptionElement.textContent;
     openModal(popupEditElement);
+    clearValidation(
+        popupEditElement.querySelector(validationSettings.formSelector),
+        validationSettings
+    );
 }
 
 function handleAddButtonClick() {
     newPlaceFormElement.reset();
     openModal(popupNewCardElement);
+    clearValidation(
+        popupNewCardElement.querySelector(validationSettings.formSelector),
+        validationSettings
+    );
 }
 
 function handleProfileFormSubmit(evt) {
@@ -131,11 +148,4 @@ initialCards.forEach((cardData) => {
     cardsListElement.appendChild(cardElement);
 });
 
-enableValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible',
-});
+enableValidation(validationSettings);
