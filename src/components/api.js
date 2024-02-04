@@ -9,7 +9,7 @@ const config = {
     },
 };
 
-function getJson(response, reason) {
+async function getJson(response, reason) {
     return !response.ok ? Promise.reject(reason) : response.json();
 }
 
