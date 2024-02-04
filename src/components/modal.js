@@ -13,6 +13,7 @@ export function openModal(element) {
     element.classList.add(isOpenedClassName);
     element.tabIndex = element.tabIndex === -1 ? 0 : element.tabIndex;
     (firstInputElement || closeButtonElement || element).focus();
+    firstInputElement && firstInputElement.select();
 
     element.addEventListener('keydown', keydownHandler);
     element.addEventListener('click', clickHandler);
