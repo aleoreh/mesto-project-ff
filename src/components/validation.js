@@ -93,13 +93,13 @@ function enableValidation({
         );
 
         inputElementsArr.forEach((inputElement) => {
-            inputElement.addEventListener('input', (evt) => {
+            inputElement.addEventListener('input', () => {
                 inputElement.setCustomValidity(
                     inputElement.validity.patternMismatch
                         ? inputElement.dataset.errorMessage
                         : ''
                 );
-                if (isValid(evt.target)) {
+                if (isValid(inputElement)) {
                     hideInputError({
                         formElement,
                         inputElement,
