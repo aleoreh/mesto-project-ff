@@ -2,6 +2,10 @@ function isValid(inputElement) {
     return inputElement.validity.valid;
 }
 
+function errorSelector(id) {
+    return `.${id}-error`;
+}
+
 function showInputError({
     formElement,
     inputElement,
@@ -9,8 +13,9 @@ function showInputError({
     inputErrorClass,
     errorClass,
 }) {
-    const errorSelector = `.${inputElement.id}-error`;
-    const errorElement = formElement.querySelector(errorSelector);
+    const errorElement = formElement.querySelector(
+        errorSelector(inputElement.id)
+    );
     inputElement.classList.add(inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(errorClass);
@@ -22,8 +27,9 @@ function hideInputError({
     inputErrorClass,
     errorClass,
 }) {
-    const errorSelector = `.${inputElement.id}-error`;
-    const errorElement = formElement.querySelector(errorSelector);
+    const errorElement = formElement.querySelector(
+        errorSelector(inputElement.id)
+    );
     inputElement.classList.remove(inputErrorClass);
     errorElement.textContent = '';
     errorElement.classList.remove(errorClass);
