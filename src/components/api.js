@@ -25,4 +25,13 @@ async function getProfileInfo() {
     return getJson(res, 'Не удалось получить данные пользователя');
 }
 
-export { getInitialCards, getProfileInfo };
+async function patchProfileInfo(profileInfo) {
+    const res = await fetch(config.url('users/me'), {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify(profileInfo),
+    });
+    return getJson(res, 'Не удалось отправить профиль для изменения');
+}
+
+export { getInitialCards, getProfileInfo, patchProfileInfo };

@@ -1,4 +1,8 @@
-import { getInitialCards, getProfileInfo } from './components/api';
+import {
+    getInitialCards,
+    getProfileInfo,
+    patchProfileInfo,
+} from './components/api';
 import {
     createCardElement,
     generateAltImageText,
@@ -91,17 +95,25 @@ function handleAddButtonClick() {
     );
 }
 
-function handleProfileFormSubmit(evt) {
+async function handleProfileFormSubmit(evt) {
     evt.preventDefault();
 
-    const name = editProfileNameInputElement.value;
-    const description = editProfileDescriptionInputElement.value;
+    const currentName = editProfileNameInputElement.value;
+    const currentAbout = editProfileDescriptionInputElement.value;
 
-    profileTitleElement.textContent = name;
-    profileDescriptionElement.textContent = description;
-
-    closeModal(popupEditElement);
-    editProfileFormElement.reset();
+    try {
+        const { name, about } = await patchProfileInfo({
+            name: currentName,
+            about: currentAbout,
+        });
+        profileTitleElement.textContent = name;
+        profileDescriptionElement.textContent = about;
+    } catch (err) {
+        console.error(err);
+    } finally {
+        closeModal(popupEditElement);
+        editProfileFormElement.reset();
+    }
 }
 
 function handleNewPlaceFormSubmit(evt) {
