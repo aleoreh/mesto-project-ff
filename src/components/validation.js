@@ -18,6 +18,11 @@ function hideInputError(formElement, inputElement) {
 }
 
 function checkInputValidity(formElement, inputElement) {
+    inputElement.setCustomValidity(
+        inputElement.validity.patternMismatch
+            ? inputElement.dataset.errorMessage
+            : ''
+    );
     if (!inputElement.validity.valid) {
         showInputError(
             formElement,

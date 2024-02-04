@@ -64,6 +64,8 @@
                             required
                             minlength="2"
                             maxlength="40"
+                            pattern="[A-Za-zА-Яа-яЁё \-]*"
+                            data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
                         />
                         <span class="popup__error-text nameInput-error"></span>
                         <input
