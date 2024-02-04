@@ -54,7 +54,7 @@ const popupShowCardImageElement =
 const popupShowCardCaptionElement =
     popupShowCardElement.querySelector('.popup__caption');
 
-const validationSettings = {
+const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button',
@@ -76,8 +76,8 @@ function handleEditProfileButtonClick() {
         profileDescriptionElement.textContent;
     openModal(popupEditElement);
     clearValidation(
-        popupEditElement.querySelector(validationSettings.formSelector),
-        validationSettings
+        popupEditElement.querySelector(validationConfig.formSelector),
+        validationConfig
     );
 }
 
@@ -85,8 +85,8 @@ function handleAddButtonClick() {
     newPlaceFormElement.reset();
     openModal(popupNewCardElement);
     clearValidation(
-        popupNewCardElement.querySelector(validationSettings.formSelector),
-        validationSettings
+        popupNewCardElement.querySelector(validationConfig.formSelector),
+        validationConfig
     );
 }
 
@@ -148,4 +148,4 @@ initialCards.forEach((cardData) => {
     cardsListElement.appendChild(cardElement);
 });
 
-enableValidation(validationSettings);
+enableValidation(validationConfig);
