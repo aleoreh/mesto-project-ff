@@ -1,10 +1,10 @@
+import { getInitialCards } from './components/api';
 import {
     createCardElement,
     generateAltImageText,
     removeCardElement,
     toggleLike,
 } from './components/card';
-import { initialCards } from './components/cards';
 import { closeModal, openModal } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation';
 
@@ -138,14 +138,20 @@ document.querySelectorAll('.popup').forEach((elem) => {
     elem.classList.add('popup_is-animated');
 });
 
-initialCards.forEach((cardData) => {
-    const cardElement = createCardElement(
-        cardData,
-        removeCardElement,
-        toggleLike,
-        openImage
-    );
-    cardsListElement.appendChild(cardElement);
-});
+getInitialCards()
+    .then((initialCards) => {
+        initialCards.forEach((cardData) => {
+            const cardElement = createCardElement(
+                cardData,
+                removeCardElement,
+                toggleLike,
+                openImage
+            );
+            cardsListElement.appendChild(cardElement);
+        });
+    })
+    .catch((err) => {
+        console.error(err);
+    });
 
 enableValidation(validationConfig);
