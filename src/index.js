@@ -1,4 +1,4 @@
-import { getInitialCards } from './components/api';
+import { getInitialCards, getProfileInfo } from './components/api';
 import {
     createCardElement,
     generateAltImageText,
@@ -32,6 +32,7 @@ const newPlaceLinkInputElement = document.querySelector(
     '.popup_type_new-card .popup__form .popup__input_type_url'
 );
 
+const profileImageElement = document.querySelector('.profile__image');
 const profileTitleElement = document.querySelector('.profile__title');
 const profileDescriptionElement = document.querySelector(
     '.profile__description'
@@ -123,6 +124,12 @@ function handleNewPlaceFormSubmit(evt) {
     cardsListElement.prepend(cardElement);
 }
 
+function renderProfileInfo({ name, about, avatar }) {
+    profileImageElement.style.backgroundImage = `url('${avatar}')`;
+    profileTitleElement.textContent = name;
+    profileDescriptionElement.textContent = about;
+}
+
 addButtonElement.addEventListener('click', handleAddButtonClick);
 
 profileEditButtonElement.addEventListener(
@@ -149,6 +156,14 @@ getInitialCards()
             );
             cardsListElement.appendChild(cardElement);
         });
+    })
+    .catch((err) => {
+        console.error(err);
+    });
+
+getProfileInfo()
+    .then((userInfo) => {
+        renderProfileInfo(userInfo);
     })
     .catch((err) => {
         console.error(err);

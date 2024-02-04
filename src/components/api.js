@@ -19,4 +19,16 @@ function getInitialCards() {
     );
 }
 
-export { getInitialCards };
+function getProfileInfo() {
+    return fetch(config.url('users/me'), { headers: config.headers }).then(
+        (res) => {
+            if (!res.ok)
+                return Promise.reject(
+                    'Не удалось получить данные пользователя'
+                );
+            return res.json();
+        }
+    );
+}
+
+export { getInitialCards, getProfileInfo };
