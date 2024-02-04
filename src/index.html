@@ -20,22 +20,15 @@
             </header>
             <main class="content">
                 <section class="profile page__section">
-                    <div
-                        class="profile__image"
-                        style="
-                            background-image: url(<%=require(
-                                    './images/avatar.jpg'
-                                )%>);
-                        "
-                    ></div>
+                    <div class="profile__image"></div>
                     <div class="profile__info">
-                        <h1 class="profile__title">Жак-Ив Кусто</h1>
+                        <h1 class="profile__title">...</h1>
                         <button
                             class="profile__edit-button"
                             type="button"
                             aria-label="Редактировать профиль"
                         ></button>
-                        <p class="profile__description">Исследователь океана</p>
+                        <p class="profile__description">...</p>
                     </div>
                     <button
                         class="profile__add-button"
@@ -82,7 +75,9 @@
                             pattern="[A-Za-zА-Яа-яЁё \-,]*"
                             data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
                         />
-                        <span class="popup__error descriptionInput-error"></span>
+                        <span
+                            class="popup__error descriptionInput-error"
+                        ></span>
                         <button type="submit" class="button popup__button">
                             Сохранить
                         </button>

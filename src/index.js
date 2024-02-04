@@ -130,14 +130,7 @@ function renderProfileInfo({ name, about, avatar }) {
     profileDescriptionElement.textContent = about;
 }
 
-async function getInitialData() {
-    const [initialCards, profileInfo] = await Promise.all([
-        getInitialCards(),
-        getProfileInfo(),
-    ]).catch((err) => console.log(err));
-
-    renderProfileInfo(profileInfo);
-
+function renderInitialCards(initialCards) {
     initialCards.forEach((cardData) => {
         const cardElement = createCardElement(
             cardData,
@@ -147,6 +140,20 @@ async function getInitialData() {
         );
         cardsListElement.appendChild(cardElement);
     });
+}
+
+async function getInitialData() {
+    try {
+        const [profileInfo, initialCards] = await Promise.all([
+            getProfileInfo(),
+            getInitialCards(),
+        ]);
+
+        renderProfileInfo(profileInfo);
+        renderInitialCards(initialCards);
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 addButtonElement.addEventListener('click', handleAddButtonClick);
