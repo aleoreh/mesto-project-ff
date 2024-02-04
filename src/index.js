@@ -130,6 +130,25 @@ function renderProfileInfo({ name, about, avatar }) {
     profileDescriptionElement.textContent = about;
 }
 
+async function getInitialData() {
+    const [initialCards, profileInfo] = await Promise.all([
+        getInitialCards(),
+        getProfileInfo(),
+    ]).catch((err) => console.log(err));
+
+    renderProfileInfo(profileInfo);
+
+    initialCards.forEach((cardData) => {
+        const cardElement = createCardElement(
+            cardData,
+            removeCardElement,
+            toggleLike,
+            openImage
+        );
+        cardsListElement.appendChild(cardElement);
+    });
+}
+
 addButtonElement.addEventListener('click', handleAddButtonClick);
 
 profileEditButtonElement.addEventListener(
@@ -145,28 +164,6 @@ document.querySelectorAll('.popup').forEach((elem) => {
     elem.classList.add('popup_is-animated');
 });
 
-getInitialCards()
-    .then((initialCards) => {
-        initialCards.forEach((cardData) => {
-            const cardElement = createCardElement(
-                cardData,
-                removeCardElement,
-                toggleLike,
-                openImage
-            );
-            cardsListElement.appendChild(cardElement);
-        });
-    })
-    .catch((err) => {
-        console.error(err);
-    });
-
-getProfileInfo()
-    .then((userInfo) => {
-        renderProfileInfo(userInfo);
-    })
-    .catch((err) => {
-        console.error(err);
-    });
+getInitialData();
 
 enableValidation(validationConfig);
