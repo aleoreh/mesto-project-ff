@@ -9,26 +9,20 @@ const config = {
     },
 };
 
-function getInitialCards() {
-    return fetch(config.url('cards'), { headers: config.headers }).then(
-        (res) => {
-            if (!res.ok)
-                return Promise.reject('Не удалось получить список карточек');
-            return res.json();
-        }
-    );
+function getJson(response, reason) {
+    return !response.ok ? Promise.reject(reason) : response.json();
 }
 
-function getProfileInfo() {
-    return fetch(config.url('users/me'), { headers: config.headers }).then(
-        (res) => {
-            if (!res.ok)
-                return Promise.reject(
-                    'Не удалось получить данные пользователя'
-                );
-            return res.json();
-        }
-    );
+async function getInitialCards() {
+    const res = await fetch(config.url('cards'), { headers: config.headers });
+    return getJson(res, 'Не удалось получить список карточек');
+}
+
+async function getProfileInfo() {
+    const res = await fetch(config.url('users/me'), {
+        headers: config.headers,
+    });
+    return getJson(res, 'Не удалось получить данные пользователя');
 }
 
 export { getInitialCards, getProfileInfo };
