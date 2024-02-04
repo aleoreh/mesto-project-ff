@@ -97,8 +97,12 @@
                             class="popup__input popup__input_type_card-name"
                             placeholder="Название"
                             required
+                            minlength="2"
+                            maxlength="30"
+                            pattern="[A-Za-zА-Яа-яЁё \-]*"
+                            data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
                         />
-                        <span class="popup__error-text placeNameInput-error"></span>
+                        <span class="popup__error placeNameInput-error"></span>
                         <input
                             id="urlInput"
                             type="url"
@@ -107,7 +111,7 @@
                             placeholder="Ссылка на картинку"
                             required
                         />
-                        <span class="popup__error-text urlInput-error"></span>
+                        <span class="popup__error urlInput-error"></span>
                         <button type="submit" class="button popup__button">
                             Сохранить
                         </button>
