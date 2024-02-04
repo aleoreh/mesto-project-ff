@@ -29,18 +29,45 @@ function hideInputError({
     errorElement.classList.remove(errorClass);
 }
 
+function setSubmitAvailability(
+    formElement,
+    { inputSelector, submitButtonSelector, inactiveButtonClass }
+) {
+    const inputElementsArr = Array.from(
+        formElement.querySelectorAll(inputSelector)
+    );
+    const targetElement = formElement.querySelector(submitButtonSelector);
+    targetElement.classList.toggle(
+        inactiveButtonClass,
+        !inputElementsArr.every(isValid)
+    );
+}
+
 function clearValidation(
     formElement,
-    { inputSelector, inputErrorClass, errorClass }
+    {
+        inputSelector,
+        inputErrorClass,
+        errorClass,
+        inactiveButtonClass,
+        submitButtonSelector,
+    }
 ) {
-    const inputElements = formElement.querySelectorAll(inputSelector);
-    Array.from(inputElements).forEach((inputElement) => {
+    const inputElementsArr = Array.from(
+        formElement.querySelectorAll(inputSelector)
+    );
+    inputElementsArr.forEach((inputElement) => {
         hideInputError({
             formElement,
             inputElement,
             inputErrorClass,
             errorClass,
         });
+    });
+    setSubmitAvailability(formElement, {
+        inactiveButtonClass,
+        inputSelector,
+        submitButtonSelector,
     });
 }
 
@@ -52,13 +79,6 @@ function enableValidation({
     inputErrorClass,
     errorClass,
 }) {
-    function setSubmitAvailability(inputElements, targetElement) {
-        targetElement.classList.toggle(
-            inactiveButtonClass,
-            Array.from(inputElements).every(isValid)
-        );
-    }
-
     const formElementsArr = Array.from(document.querySelectorAll(formSelector));
 
     formElementsArr.forEach((formElement) => {
@@ -68,8 +88,6 @@ function enableValidation({
             evt.preventDefault();
         });
 
-        const submitButtonElement =
-            formElement.querySelector(submitButtonSelector);
         const inputElementsArr = Array.from(
             formElement.querySelectorAll(inputSelector)
         );
@@ -97,10 +115,13 @@ function enableValidation({
                         errorClass,
                     });
                 }
+                setSubmitAvailability(formElement, {
+                    inactiveButtonClass,
+                    inputSelector,
+                    submitButtonSelector,
+                });
             });
         });
-        // debugger;
-        setSubmitAvailability(inputElementsArr, submitButtonElement);
     });
 }
 
