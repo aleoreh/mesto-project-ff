@@ -10,11 +10,13 @@ const config = {
 };
 
 function getInitialCards() {
-    return fetch(config.url('cards'), { ...config }).then((res) => {
-        if (!res.ok)
-            return Promise.reject('Не удалось получить список карточек');
-        return res.json();
-    });
+    return fetch(config.url('cards'), { headers: config.headers }).then(
+        (res) => {
+            if (!res.ok)
+                return Promise.reject('Не удалось получить список карточек');
+            return res.json();
+        }
+    );
 }
 
 export { getInitialCards };
