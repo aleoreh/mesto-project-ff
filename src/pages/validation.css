@@ -1,19 +1,27 @@
-.popup__error {
-    display: none;
-    color: red;
+* {
+    /* outline: 1px dotted green; */
 }
 
-.popup__error_visible {
-  display: block;
+.popup__error {
+    display: block;
+    min-block-size: 15px;
+    color: red;
+    font-size: 12px;
+}
+
+.popup__error:last-of-type {
+  margin-top: 10px;
 }
 
 .popup__input_type_error {
-  outline: 1px solid red;
+    border-bottom: 1px solid red;
 }
 
 .popup__button_disabled {
-    color: #b8b8b8;
-    background: #ededed;
+    opacity: 0.2;
+    color: #000;
+    background-color: transparent;
+    border: 1px solid #000;
     pointer-events: none;
     user-select: none;
 }
