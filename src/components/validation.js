@@ -88,12 +88,6 @@ function enableValidation({
     const formElementsArr = Array.from(document.querySelectorAll(formSelector));
 
     formElementsArr.forEach((formElement) => {
-        // TODO: preventDefault назначены в другом месте;
-        // разобраться, где оставить
-        formElement.addEventListener('submit', (evt) => {
-            evt.preventDefault();
-        });
-
         const inputElementsArr = Array.from(
             formElement.querySelectorAll(inputSelector)
         );
