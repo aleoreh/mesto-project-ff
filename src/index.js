@@ -129,11 +129,10 @@ async function handleProfileFormSubmit(evt) {
         });
         profileTitleElement.textContent = name;
         profileDescriptionElement.textContent = about;
-    } catch (err) {
-        console.error(err);
-    } finally {
         closeModal(popupEditElement);
         editProfileFormElement.reset();
+    } catch (err) {
+        handleError(err);
     }
 }
 
@@ -185,7 +184,7 @@ async function getInitialData() {
         renderProfileInfo(profileInfo);
         renderInitialCards(initialCards);
     } catch (err) {
-        console.log(err);
+        handleError(err);
     }
 }
 

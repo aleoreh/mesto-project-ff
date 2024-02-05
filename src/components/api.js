@@ -10,7 +10,24 @@ const config = {
 };
 
 async function getJson(response, reason) {
-    return !response.ok ? Promise.reject(reason) : response.json();
+    if (response.ok) return response.json();
+
+    const comment =
+        response.status === 400
+            ? 'неверные данные'
+            : response.status === 401
+            ? 'ошибка аутентификации'
+            : response.status === 403
+            ? 'доступ запрещён'
+            : response.status === 404
+            ? 'адрес не найден'
+            : response.status >= 400 && response.status < 500
+            ? 'переданы неверные данные'
+            : response.status >= 500 && response.status < 600
+            ? 'ошибка на стороне сервера'
+            : 'неизвестная ошибка';
+
+    return Promise.reject(`${reason} (${comment})`);
 }
 
 async function getInitialCards() {
