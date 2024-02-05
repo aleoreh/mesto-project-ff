@@ -51,4 +51,13 @@ async function patchProfileInfo(profileInfo) {
     return getJson(res, 'Не удалось отправить профиль для изменения');
 }
 
-export { getInitialCards, getProfileInfo, patchProfileInfo };
+async function postCard(card) {
+    const res = await fetch(config.url('cards'), {
+        method: 'POST',
+        headers: config.headers,
+        body: JSON.stringify(card),
+    });
+    return getJson(res, 'Не удалось отправить новую карточку');
+}
+
+export { getInitialCards, getProfileInfo, patchProfileInfo, postCard };
