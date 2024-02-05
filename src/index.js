@@ -71,7 +71,7 @@ const validationConfig = {
     errorClass: 'popup__error_visible',
 };
 
-function handleError(reason) {
+function handleHttpError(reason) {
     const existingErrors = Array.from(document.querySelectorAll('.http-error'));
     existingErrors.forEach((errElem) => {
         errElem.remove();
@@ -133,7 +133,7 @@ async function handleProfileFormSubmit(evt) {
         closeModal(popupEditElement);
         editProfileFormElement.reset();
     } catch (err) {
-        handleError(err);
+        handleHttpError(err);
     }
 }
 
@@ -158,7 +158,7 @@ async function handleNewPlaceFormSubmit(evt) {
 
         cardsListElement.prepend(cardElement);
     } catch (err) {
-        handleError(err);
+        handleHttpError(err);
     }
 }
 
@@ -190,7 +190,7 @@ async function getInitialData() {
         renderProfileInfo(profileInfo);
         renderInitialCards(initialCards);
     } catch (err) {
-        handleError(err);
+        handleHttpError(err);
     }
 }
 
