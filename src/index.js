@@ -2,6 +2,7 @@ import {
     getInitialCards,
     getProfileInfo,
     patchProfileInfo,
+    postCard,
 } from './components/api';
 import {
     createCardElement,
@@ -136,24 +137,29 @@ async function handleProfileFormSubmit(evt) {
     }
 }
 
-function handleNewPlaceFormSubmit(evt) {
+async function handleNewPlaceFormSubmit(evt) {
     evt.preventDefault();
 
-    const cardElement = createCardElement(
-        {
+    try {
+        const res = await postCard({
             name: newPlacePlaceNameInputElement.value,
             link: newPlaceLinkInputElement.value,
-        },
-        removeCardElement,
-        toggleLike,
-        openImage
-    );
+        });
+        const cardElement = createCardElement(
+            res,
+            removeCardElement,
+            toggleLike,
+            openImage
+        );
 
-    closeModal(popupNewCardElement);
-    newPlacePlaceNameInputElement.value = '';
-    newPlaceLinkInputElement.value = '';
+        closeModal(popupNewCardElement);
+        newPlacePlaceNameInputElement.value = '';
+        newPlaceLinkInputElement.value = '';
 
-    cardsListElement.prepend(cardElement);
+        cardsListElement.prepend(cardElement);
+    } catch (err) {
+        handleError(err);
+    }
 }
 
 function renderProfileInfo({ name, about, avatar }) {
