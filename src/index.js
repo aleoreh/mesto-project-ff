@@ -59,6 +59,8 @@ const popupShowCardImageElement =
 const popupShowCardCaptionElement =
     popupShowCardElement.querySelector('.popup__caption');
 
+const errorTemplate = document.querySelector('#http-error-template').content;
+
 const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -67,6 +69,25 @@ const validationConfig = {
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_visible',
 };
+
+function handleError(reason) {
+    const existingErrors = Array.from(document.querySelectorAll('.http-error'));
+    existingErrors.forEach((errElem) => {
+        errElem.remove();
+    });
+
+    const rootElement = errorTemplate
+        .querySelector('.http-error')
+        .cloneNode(true);
+    const messageElement = rootElement.querySelector('.http-error__message');
+    messageElement.textContent = reason;
+    const closeButtonElement = rootElement.querySelector('.http-error__close');
+    closeButtonElement.addEventListener('click', () => {
+        rootElement.remove();
+    });
+
+    document.body.appendChild(rootElement);
+}
 
 function openImage(cardData) {
     popupShowCardImageElement.alt = generateAltImageText(cardData.name);
