@@ -1,7 +1,13 @@
 const cardTemplate = document.querySelector('#card-template').content;
 const isLikedClassName = 'card__like-button_is-active';
 
-export function createCardElement({ link, name, likes }, remove, like, show) {
+export function createCardElement(
+    { link, name, likes, owner },
+    currentProfileId,
+    remove,
+    like,
+    show
+) {
     const element = cardTemplate.querySelector('.card').cloneNode(true);
 
     const imageElement = element.querySelector('.card__image');
@@ -13,11 +19,16 @@ export function createCardElement({ link, name, likes }, remove, like, show) {
     imageElement.src = link;
     imageElement.alt = generateAltImageText(name);
     titleElement.innerText = name;
-    deleteButtonElement.addEventListener('click', () => remove(element));
-    deleteButtonElement.setAttribute(
-        'aria-label',
-        `Удалить карточку "${name}"`
-    );
+    if (currentProfileId === owner._id) {
+        deleteButtonElement.addEventListener('click', () => remove(element));
+        deleteButtonElement.setAttribute(
+            'aria-label',
+            `Удалить карточку "${name}"`
+        );
+    } else {
+        deleteButtonElement.remove();
+    }
+
     toggleLikeElement.addEventListener('click', () => {
         like(toggleLikeElement);
     });
@@ -39,4 +50,3 @@ export function removeCardElement(cardElement) {
 export function generateAltImageText(value) {
     return `Фотография места: ${value}`;
 }
-

@@ -37,6 +37,7 @@ const newPlaceLinkInputElement = document.querySelector(
     '.popup_type_new-card .popup__form .popup__input_type_url'
 );
 
+const profileInfoElement = document.querySelector('.profile__info');
 const profileImageElement = document.querySelector('.profile__image');
 const profileTitleElement = document.querySelector('.profile__title');
 const profileDescriptionElement = document.querySelector(
@@ -88,6 +89,10 @@ function handleHttpError(reason) {
     });
 
     document.body.appendChild(rootElement);
+}
+
+function getProfileId() {
+    return profileInfoElement.getAttribute('data-profileId');
 }
 
 function openImage(cardData) {
@@ -147,6 +152,7 @@ async function handleNewPlaceFormSubmit(evt) {
         });
         const cardElement = createCardElement(
             res,
+            getProfileId(),
             removeCardElement,
             toggleLike,
             openImage
@@ -162,16 +168,18 @@ async function handleNewPlaceFormSubmit(evt) {
     }
 }
 
-function renderProfileInfo({ name, about, avatar }) {
+function renderProfileInfo({ name, about, avatar, _id }) {
     profileImageElement.style.backgroundImage = `url('${avatar}')`;
     profileTitleElement.textContent = name;
     profileDescriptionElement.textContent = about;
+    profileInfoElement.setAttribute('data-profileId', _id);
 }
 
 function renderInitialCards(initialCards) {
     initialCards.forEach((cardData) => {
         const cardElement = createCardElement(
             cardData,
+            getProfileId(),
             removeCardElement,
             toggleLike,
             openImage
