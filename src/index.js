@@ -1,15 +1,19 @@
 import {
+    addLike,
     deleteCard,
     getInitialCards,
     getProfileInfo,
     patchProfileInfo,
     postCard,
+    removeLike,
 } from './components/api';
 import {
     createCardElement,
     generateAltImageText,
+    getCardId,
+    getIsLiked,
     removeCardElement,
-    toggleLike,
+    renderCardElement,
 } from './components/card';
 import { closeModal, openModal } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation';
@@ -96,14 +100,22 @@ function getProfileId(infoElement) {
     return infoElement.getAttribute('data-profile_id');
 }
 
-function getCardId(cardElement) {
-    return cardElement.getAttribute('data-card_id');
-}
-
 async function deleteCardQuery(cardElement) {
     try {
         await deleteCard(getCardId(cardElement));
         removeCardElement(cardElement);
+    } catch (err) {
+        handleHttpError(err);
+    }
+}
+
+async function toggleLikeQuery(cardElement, profileId) {
+    const cardId = getCardId(cardElement);
+    try {
+        const card = getIsLiked(cardElement)
+            ? await removeLike(cardId)
+            : await addLike(cardId);
+        renderCardElement(cardElement, card, profileId);
     } catch (err) {
         handleHttpError(err);
     }
@@ -168,7 +180,7 @@ async function handleNewPlaceFormSubmit(evt) {
             res,
             getProfileId(profileInfoElement),
             deleteCardQuery,
-            toggleLike,
+            toggleLikeQuery,
             openImage
         );
 
@@ -195,7 +207,7 @@ function renderInitialCards(initialCards) {
             cardData,
             getProfileId(profileInfoElement),
             deleteCardQuery,
-            toggleLike,
+            toggleLikeQuery,
             openImage
         );
         cardsListElement.appendChild(cardElement);
