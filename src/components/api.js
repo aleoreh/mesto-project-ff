@@ -12,6 +12,8 @@ const config = {
 async function getJson(response, reason) {
     if (response.ok) return response.json();
 
+    const json = await response.json();
+
     const comment =
         response.status === 400
             ? 'неверные данные'
@@ -27,7 +29,8 @@ async function getJson(response, reason) {
             ? 'ошибка на стороне сервера'
             : 'неизвестная ошибка';
 
-    return Promise.reject(`${reason} (${comment})`);
+    const message = (json?.message && `. ${json.message}`) || '';
+    return Promise.reject(`${reason}: ${comment}${message}`);
 }
 
 export async function getInitialCards() {
