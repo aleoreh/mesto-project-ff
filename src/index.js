@@ -1,4 +1,5 @@
 import {
+    deleteCard,
     getInitialCards,
     getProfileInfo,
     patchProfileInfo,
@@ -91,8 +92,21 @@ function handleHttpError(reason) {
     document.body.appendChild(rootElement);
 }
 
-function getProfileId() {
-    return profileInfoElement.getAttribute('data-profile_id');
+function getProfileId(infoElement) {
+    return infoElement.getAttribute('data-profile_id');
+}
+
+function getCardId(cardElement) {
+    return cardElement.getAttribute('data-card_id');
+}
+
+async function deleteCardQuery(cardElement) {
+    try {
+        await deleteCard(getCardId(cardElement));
+        removeCardElement(cardElement);
+    } catch (err) {
+        handleHttpError(err);
+    }
 }
 
 function openImage(cardData) {
@@ -152,8 +166,8 @@ async function handleNewPlaceFormSubmit(evt) {
         });
         const cardElement = createCardElement(
             res,
-            getProfileId(),
-            removeCardElement,
+            getProfileId(profileInfoElement),
+            deleteCardQuery,
             toggleLike,
             openImage
         );
@@ -179,8 +193,8 @@ function renderInitialCards(initialCards) {
     initialCards.forEach((cardData) => {
         const cardElement = createCardElement(
             cardData,
-            getProfileId(),
-            removeCardElement,
+            getProfileId(profileInfoElement),
+            deleteCardQuery,
             toggleLike,
             openImage
         );

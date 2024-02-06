@@ -2,7 +2,7 @@ const cardTemplate = document.querySelector('#card-template').content;
 const isLikedClassName = 'card__like-button_is-active';
 
 export function createCardElement(
-    { link, name, likes, owner },
+    { link, name, likes, owner, _id },
     currentProfileId,
     remove,
     like,
@@ -16,6 +16,7 @@ export function createCardElement(
     const toggleLikeElement = element.querySelector('.card__like-button');
     const likesCountElement = element.querySelector('.card__likes-count');
 
+    element.setAttribute('data-card_id', _id);
     imageElement.src = link;
     imageElement.alt = generateAltImageText(name);
     titleElement.innerText = name;
