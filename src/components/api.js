@@ -10,9 +10,9 @@ const config = {
 };
 
 async function getJson(response, reason) {
-    if (response.ok) return response.json();
-
     const json = await response.json();
+
+    if (response.ok) return json;
 
     const comment =
         response.status === 400
