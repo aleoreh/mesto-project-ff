@@ -70,3 +70,26 @@ export async function deleteCard(cardId) {
     });
     return getJson(res, 'Не удалось выполнить запрос на удаление карточки');
 }
+
+async function setLike(cardId, likeValue) {
+    const res = await fetch(config.url(`cards/likes/${cardId}`), {
+        method: likeValue ? 'PUT' : 'DELETE',
+        headers: config.headers,
+    });
+    return getJson(
+        res,
+        `Не удалось отправить запрос на ${
+            likeValue ? 'установку' : 'снятие'
+        } лайка`
+    );
+}
+
+export async function addLike(cardId) {
+    console.log('addLike!');
+    return setLike(cardId, true);
+}
+
+export async function removeLike(cardId) {
+    console.log('removeLike!');
+    return setLike(cardId, false);
+}
