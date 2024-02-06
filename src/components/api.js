@@ -30,19 +30,19 @@ async function getJson(response, reason) {
     return Promise.reject(`${reason} (${comment})`);
 }
 
-async function getInitialCards() {
+export async function getInitialCards() {
     const res = await fetch(config.url('cards'), { headers: config.headers });
     return getJson(res, 'Не удалось получить список карточек');
 }
 
-async function getProfileInfo() {
+export async function getProfileInfo() {
     const res = await fetch(config.url('users/me'), {
         headers: config.headers,
     });
     return getJson(res, 'Не удалось получить данные пользователя');
 }
 
-async function patchProfileInfo(profileInfo) {
+export async function patchProfileInfo(profileInfo) {
     const res = await fetch(config.url('users/me'), {
         method: 'PATCH',
         headers: config.headers,
@@ -51,7 +51,7 @@ async function patchProfileInfo(profileInfo) {
     return getJson(res, 'Не удалось отправить профиль для изменения');
 }
 
-async function postCard(card) {
+export async function postCard(card) {
     const res = await fetch(config.url('cards'), {
         method: 'POST',
         headers: config.headers,
@@ -60,4 +60,10 @@ async function postCard(card) {
     return getJson(res, 'Не удалось отправить новую карточку');
 }
 
-export { getInitialCards, getProfileInfo, patchProfileInfo, postCard };
+export async function deleteCard(cardId) {
+    const res = await fetch(config.url(`cards/${cardId}`), {
+        method: 'DELETE',
+        headers: config.headers,
+    });
+    return getJson(res, 'Не удалось выполнить запрос на удаление карточки');
+}
