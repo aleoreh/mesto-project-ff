@@ -92,7 +92,7 @@ function handleHttpError(reason) {
 }
 
 function getProfileId() {
-    return profileInfoElement.getAttribute('data-profileId');
+    return profileInfoElement.getAttribute('data-profile_id');
 }
 
 function openImage(cardData) {
@@ -172,7 +172,7 @@ function renderProfileInfo({ name, about, avatar, _id }) {
     profileImageElement.style.backgroundImage = `url('${avatar}')`;
     profileTitleElement.textContent = name;
     profileDescriptionElement.textContent = about;
-    profileInfoElement.setAttribute('data-profileId', _id);
+    profileInfoElement.setAttribute('data-profile_id', _id);
 }
 
 function renderInitialCards(initialCards) {
