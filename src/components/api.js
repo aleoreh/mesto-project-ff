@@ -85,11 +85,10 @@ async function setLike(cardId, likeValue) {
 }
 
 export async function addLike(cardId) {
-    console.log('addLike!');
     return setLike(cardId, true);
 }
 
 export async function removeLike(cardId) {
-    console.log('removeLike!');
     return setLike(cardId, false);
 }
+
