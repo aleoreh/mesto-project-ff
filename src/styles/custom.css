@@ -83,3 +83,49 @@
     padding-top: 20px;
     padding-bottom: 20px;
 }
+
+/* ~~~~~~~~~~~~~~~ profile ~~~~~~~~~~~~~~~ */
+
+.profile__image {
+    position: relative;
+}
+
+.profile__image:hover {
+    cursor: pointer;
+}
+
+.profile__image::before {
+    content: '';
+    position: absolute;
+    inset: 0 0;
+    inline-size: 100%;
+    block-size: 100%;
+    border-radius: 50%;
+    background-color: #000;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.3s;
+}
+
+.profile__image:hover::before {
+    opacity: 0.8;
+}
+
+.profile__image::after {
+    content: '';
+    position: absolute;
+    inset: 0 0;
+    inline-size: 100%;
+    block-size: 100%;
+    background-image: url(../images/edit-icon.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20%;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.3s;
+}
+
+.profile__image:hover::after {
+    opacity: 1;
+}
