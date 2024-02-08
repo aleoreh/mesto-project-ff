@@ -92,3 +92,11 @@ export async function removeLike(cardId) {
     return setLike(cardId, false);
 }
 
+export async function updateAvatar(link) {
+    const res = await fetch(config.url('users/me/avatar'), {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify({ avatar: link }),
+    });
+    return getJson(res, 'Не удалось отправить запрос на изменение аватара');
+}

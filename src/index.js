@@ -6,6 +6,7 @@ import {
     patchProfileInfo,
     postCard,
     removeLike,
+    updateAvatar,
 } from './components/api';
 import {
     createCardElement,
@@ -20,6 +21,15 @@ import { clearValidation, enableValidation } from './components/validation';
 
 import './pages/index.css';
 
+// TODO: set value on initialization
+let profile = {
+    value: undefined,
+    set(value) {
+        this.value = value;
+        renderProfileInfo(value);
+    },
+};
+
 const cardsListElement = document.querySelector('.places__list');
 
 const editProfileFormElement = document.querySelector(
@@ -30,6 +40,14 @@ const editProfileNameInputElement = document.querySelector(
 );
 const editProfileDescriptionInputElement = document.querySelector(
     '.popup_type_edit .popup__form .popup__input_type_description'
+);
+
+const editAvatarFormElement = document.querySelector(
+    '.popup_type_avatar-edit .popup__form'
+);
+
+const editAvatarUrlInputElement = document.querySelector(
+    '.popup_type_avatar-edit .popup__form .popup__input_type_avatar-url'
 );
 
 const newPlaceFormElement = document.querySelector(
@@ -55,6 +73,10 @@ const profileEditButtonElement = document.querySelector(
 const addButtonElement = document.querySelector('.profile__add-button');
 
 const popupEditElement = document.querySelector('.popup.popup_type_edit');
+
+const popupEditAvatarElement = document.querySelector(
+    '.popup.popup_type_avatar-edit'
+);
 
 const popupNewCardElement = document.querySelector(
     '.popup.popup_type_new-card'
@@ -139,6 +161,15 @@ function handleEditProfileButtonClick() {
     );
 }
 
+function handleEditAvatarButtonClick() {
+    editAvatarUrlInputElement.value = profile.value.avatar;
+    openModal(popupEditAvatarElement);
+    clearValidation(
+        popupEditAvatarElement.querySelector(validationConfig.formSelector),
+        validationConfig
+    );
+}
+
 function handleAddButtonClick() {
     newPlaceFormElement.reset();
     openModal(popupNewCardElement);
@@ -163,6 +194,21 @@ async function handleProfileFormSubmit(evt) {
         profileDescriptionElement.textContent = about;
         closeModal(popupEditElement);
         editProfileFormElement.reset();
+    } catch (err) {
+        handleHttpError(err);
+    }
+}
+
+async function handleAvatarFormSubmit(evt) {
+    evt.preventDefault();
+
+    const enteredUrl = editAvatarUrlInputElement.value;
+
+    try {
+        const newAvatar = await updateAvatar(enteredUrl);
+        profile.set({ ...profile.value, avatar: newAvatar.avatar });
+        closeModal(popupEditAvatarElement);
+        editAvatarFormElement.reset();
     } catch (err) {
         handleHttpError(err);
     }
@@ -196,6 +242,7 @@ async function handleNewPlaceFormSubmit(evt) {
 
 function renderProfileInfo({ name, about, avatar, _id }) {
     profileImageElement.style.backgroundImage = `url('${avatar}')`;
+    profileImageElement.addEventListener('click', handleEditAvatarButtonClick);
     profileTitleElement.textContent = name;
     profileDescriptionElement.textContent = about;
     profileInfoElement.setAttribute('data-profile_id', _id);
@@ -217,11 +264,14 @@ function renderInitialCards(initialCards) {
 async function getInitialData() {
     try {
         const [profileInfo, initialCards] = await Promise.all([
-            getProfileInfo(),
+            getProfileInfo().then((value) => {
+                profile.set(value);
+                return value;
+            }),
             getInitialCards(),
         ]);
 
-        renderProfileInfo(profileInfo);
+        profile.set(profileInfo);
         renderInitialCards(initialCards);
     } catch (err) {
         handleHttpError(err);
@@ -236,6 +286,8 @@ profileEditButtonElement.addEventListener(
 );
 
 editProfileFormElement.addEventListener('submit', handleProfileFormSubmit);
+
+editAvatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
 
 newPlaceFormElement.addEventListener('submit', handleNewPlaceFormSubmit);
 
