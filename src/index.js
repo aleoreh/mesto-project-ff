@@ -7,6 +7,7 @@ import {
     postCard,
     removeLike,
     updateAvatar,
+    checkIfImage,
 } from './components/api';
 import {
     createCardElement,
@@ -17,7 +18,12 @@ import {
     renderCardElement,
 } from './components/card';
 import { closeModal, openModal } from './components/modal';
-import { clearValidation, enableValidation } from './components/validation';
+import {
+    clearValidation,
+    enableValidation,
+    hideInputError,
+    showInputError,
+} from './components/validation';
 
 import './pages/index.css';
 
@@ -203,14 +209,30 @@ async function handleAvatarFormSubmit(evt) {
     evt.preventDefault();
 
     const enteredUrl = editAvatarUrlInputElement.value;
+    const isImage = await checkIfImage(enteredUrl);
 
-    try {
-        const newAvatar = await updateAvatar(enteredUrl);
-        profile.set({ ...profile.value, avatar: newAvatar.avatar });
-        closeModal(popupEditAvatarElement);
-        editAvatarFormElement.reset();
-    } catch (err) {
-        handleHttpError(err);
+    if (!isImage) {
+        showInputError({
+            formElement: editAvatarFormElement,
+            inputElement: editAvatarUrlInputElement,
+            errorMessage: 'Это не изображение',
+            ...validationConfig,
+        });
+    } else {
+        try {
+            const newAvatar = await updateAvatar(enteredUrl);
+
+            profile.set({ ...profile.value, avatar: newAvatar.avatar });
+            closeModal(popupEditAvatarElement);
+            editAvatarFormElement.reset();
+            hideInputError({
+                formElement: editAvatarFormElement,
+                inputElement: editAvatarUrlInputElement,
+                ...validationConfig,
+            });
+        } catch (err) {
+            handleHttpError(err);
+        }
     }
 }
 

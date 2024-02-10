@@ -92,6 +92,19 @@ export async function removeLike(cardId) {
     return setLike(cardId, false);
 }
 
+export async function checkIfImage(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+            resolve(true);
+        };
+        img.onerror = () => {
+            resolve(false);
+        };
+        img.src = url;
+    });
+}
+
 export async function updateAvatar(link) {
     const res = await fetch(config.url('users/me/avatar'), {
         method: 'PATCH',

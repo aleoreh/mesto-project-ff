@@ -6,7 +6,7 @@ function errorSelector(id) {
     return `.${id}-error`;
 }
 
-function showInputError({
+export function showInputError({
     formElement,
     inputElement,
     errorMessage,
@@ -21,7 +21,7 @@ function showInputError({
     errorElement.classList.add(errorClass);
 }
 
-function hideInputError({
+export function hideInputError({
     formElement,
     inputElement,
     inputErrorClass,
