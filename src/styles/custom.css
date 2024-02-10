@@ -27,7 +27,7 @@
 /* ~~~~~~~~~~~~~~ http-error ~~~~~~~~~~~~~ */
 
 .http-error {
-    position: sticky;
+    position: fixed;
     inset-inline-end: 5px;
     inset-block-start: 5px;
     display: flex;
