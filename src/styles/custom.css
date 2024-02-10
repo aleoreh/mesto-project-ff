@@ -49,6 +49,7 @@
 
 .http-error__close {
     display: inline-block;
+    flex-shrink: 0;
     inline-size: 30px;
     block-size: 30px;
     background-color: transparent;
