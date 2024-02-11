@@ -169,7 +169,7 @@ function handleAddButtonClick() {
     );
 }
 
-function startFormSubmit(submitEvent, formElement, asyncAction, next) {
+function beginFormSubmit(submitEvent, formElement, asyncAction, next) {
     submitEvent.preventDefault();
 
     const submitElement = formElement.querySelector('button[type="submit"]');
@@ -200,7 +200,7 @@ async function handleProfileFormSubmit(evt) {
         editProfileFormElement.reset();
     };
 
-    startFormSubmit(evt, editProfileFormElement, submitAction, next);
+    beginFormSubmit(evt, editProfileFormElement, submitAction, next);
 }
 
 async function handleAvatarFormSubmit(evt) {
@@ -233,7 +233,7 @@ async function handleAvatarFormSubmit(evt) {
         }
     };
 
-    startFormSubmit(evt, editAvatarFormElement, submitAction, next);
+    beginFormSubmit(evt, editAvatarFormElement, submitAction, next);
 }
 
 async function handleNewPlaceFormSubmit(evt) {
@@ -258,7 +258,7 @@ async function handleNewPlaceFormSubmit(evt) {
         cardsListElement.prepend(cardElement);
     };
 
-    startFormSubmit(evt, newPlaceFormElement, submitAction, next);
+    beginFormSubmit(evt, newPlaceFormElement, submitAction, next);
 }
 
 function renderProfileInfo({ name, about, avatar, _id }) {
