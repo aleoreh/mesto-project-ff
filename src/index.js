@@ -112,8 +112,7 @@ const validationConfig = {
 };
 
 function handleError(reason) {
-    console.log(reason);
-    throw reason;
+    console.error(reason);
 }
 
 function getProfileId(infoElement) {
