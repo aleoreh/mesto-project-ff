@@ -169,67 +169,80 @@ function handleAddButtonClick() {
     );
 }
 
-async function handleProfileFormSubmit(evt) {
-    evt.preventDefault();
+function startFormSubmit(submitEvent, formElement, asyncAction, next) {
+    submitEvent.preventDefault();
 
+    const submitElement = formElement.querySelector('button[type="submit"]');
+    const prevTextContent = submitElement.textContent;
+    submitElement.textContent = 'Сохранение...';
+
+    asyncAction()
+        .then(next)
+        .catch(handleHttpError)
+        .finally(() => {
+            submitElement.textContent = prevTextContent;
+        });
+}
+
+async function handleProfileFormSubmit(evt) {
     const currentName = editProfileNameInputElement.value;
     const currentAbout = editProfileDescriptionInputElement.value;
 
-    try {
-        const { name, about } = await patchProfileInfo({
+    const submitAction = () =>
+        patchProfileInfo({
             name: currentName,
             about: currentAbout,
         });
+    const next = ({ name, about }) => {
         profileTitleElement.textContent = name;
         profileDescriptionElement.textContent = about;
         closeModal(popupEditElement);
         editProfileFormElement.reset();
-    } catch (err) {
-        handleHttpError(err);
-    }
+    };
+
+    startFormSubmit(evt, editProfileFormElement, submitAction, next);
 }
 
 async function handleAvatarFormSubmit(evt) {
-    evt.preventDefault();
-
     const enteredUrl = editAvatarUrlInputElement.value;
     const isImage = await checkIfImage(enteredUrl);
 
-    if (!isImage) {
-        showInputError({
-            formElement: editAvatarFormElement,
-            inputElement: editAvatarUrlInputElement,
-            errorMessage: 'Это не изображение',
-            ...validationConfig,
-        });
-    } else {
-        try {
-            const newAvatar = await updateAvatar(enteredUrl);
-
-            profile.set({ ...profile.value, avatar: newAvatar.avatar });
-            closeModal(popupEditAvatarElement);
-            editAvatarFormElement.reset();
-            hideInputError({
+    const submitAction = () => {
+        if (!isImage) {
+            showInputError({
                 formElement: editAvatarFormElement,
                 inputElement: editAvatarUrlInputElement,
+                errorMessage: 'Это не изображение',
                 ...validationConfig,
             });
-        } catch (err) {
-            handleHttpError(err);
+            return;
         }
-    }
+
+        return updateAvatar(enteredUrl);
+    };
+    const next = (newAvatar) => {
+        profile.set({ ...profile.value, avatar: newAvatar.avatar });
+        closeModal(popupEditAvatarElement);
+        editAvatarFormElement.reset();
+        hideInputError({
+            formElement: editAvatarFormElement,
+            inputElement: editAvatarUrlInputElement,
+            ...validationConfig,
+        });
+    };
+
+    startFormSubmit(evt, editAvatarFormElement, submitAction, next);
 }
 
 async function handleNewPlaceFormSubmit(evt) {
-    evt.preventDefault();
-
-    try {
-        const res = await postCard({
+    const submitAction = () =>
+        postCard({
             name: newPlacePlaceNameInputElement.value,
             link: newPlaceLinkInputElement.value,
         });
+    const next = (card) => {
         const cardElement = createCardElement(
-            res,
+            card,
             getProfileId(profileInfoElement),
             deleteCardQuery,
             toggleLikeQuery,
@@ -241,9 +254,9 @@ async function handleNewPlaceFormSubmit(evt) {
         newPlaceLinkInputElement.value = '';
 
         cardsListElement.prepend(cardElement);
-    } catch (err) {
-        handleHttpError(err);
-    }
+    };
+
+    startFormSubmit(evt, newPlaceFormElement, submitAction, next);
 }
 
 function renderProfileInfo({ name, about, avatar, _id }) {
