@@ -24,52 +24,6 @@
     user-select: none;
 }
 
-/* ~~~~~~~~~~~~~~ http-error ~~~~~~~~~~~~~ */
-
-.http-error {
-    position: fixed;
-    inset-inline-end: 5px;
-    inset-block-start: 5px;
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-    align-items: center;
-    max-width: calc(100% / 4.5);
-    padding: 10px;
-    border: 1px solid #888;
-    /* border-radius: 5px; */
-    z-index: 10;
-    font-family: 'Inter', Arial, Helvetica, sans-serif;
-}
-
-.http-error__message {
-    color: #9e2222;
-    font-size: 14px;
-}
-
-.http-error__close {
-    display: inline-block;
-    flex-shrink: 0;
-    inline-size: 30px;
-    block-size: 30px;
-    background-color: transparent;
-    box-shadow: none;
-    border: 1px solid #888;
-    /* border-radius: 5px; */
-    color: #888;
-    opacity: 1;
-    transition: opacity 0.2s;
-}
-
-.http-error__close:hover {
-    opacity: 0.8;
-    cursor: pointer;
-}
-
-.error__close:active {
-    border-color: #aaa;
-}
-
 /* ~~~~~~~~~~~~~~~~ likes ~~~~~~~~~~~~~~~~ */
 
 .card__likes-wrapper {
