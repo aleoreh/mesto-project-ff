@@ -306,21 +306,13 @@ function renderInitialCards(initialCards) {
     });
 }
 
-async function getInitialData() {
-    try {
-        const [profileInfo, initialCards] = await Promise.all([
-            getProfileInfo().then((value) => {
-                profile.set(value);
-                return value;
-            }),
-            getInitialCards(),
-        ]);
-
-        profile.set(profileInfo);
-        renderInitialCards(initialCards);
-    } catch (err) {
-        handleError(err);
-    }
+function getInitialData() {
+    Promise.all([getProfileInfo(), getInitialCards()])
+        .then(([profileInfo, initialCards]) => {
+            profile.set(profileInfo);
+            renderInitialCards(initialCards);
+        })
+        .catch(handleError);
 }
 
 addButtonElement.addEventListener('click', handleAddButtonClick);
