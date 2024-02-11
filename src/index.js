@@ -205,30 +205,32 @@ async function handleProfileFormSubmit(evt) {
 
 async function handleAvatarFormSubmit(evt) {
     const enteredUrl = editAvatarUrlInputElement.value;
-    const isImage = await checkIfImage(enteredUrl);
 
-    const submitAction = () => {
-        if (!isImage) {
-            showInputError({
+    const submitAction = () =>
+        checkIfImage(enteredUrl).then((isImage) => {
+            if (!isImage) {
+                showInputError({
+                    formElement: editAvatarFormElement,
+                    inputElement: editAvatarUrlInputElement,
+                    errorMessage: 'Это не изображение',
+                    ...validationConfig,
+                });
+                return Promise.resolve(undefined);
+            }
+
+            return updateAvatar(enteredUrl);
+        });
+    const next = (newAvatar) => {
+        if (newAvatar !== undefined) {
+            profile.set({ ...profile.value, avatar: newAvatar.avatar });
+            closeModal(popupEditAvatarElement);
+            editAvatarFormElement.reset();
+            hideInputError({
                 formElement: editAvatarFormElement,
                 inputElement: editAvatarUrlInputElement,
-                errorMessage: 'Это не изображение',
                 ...validationConfig,
             });
-            return;
         }
-
-        return updateAvatar(enteredUrl);
-    };
-    const next = (newAvatar) => {
-        profile.set({ ...profile.value, avatar: newAvatar.avatar });
-        closeModal(popupEditAvatarElement);
-        editAvatarFormElement.reset();
-        hideInputError({
-            formElement: editAvatarFormElement,
-            inputElement: editAvatarUrlInputElement,
-            ...validationConfig,
-        });
     };
 
     startFormSubmit(evt, editAvatarFormElement, submitAction, next);
