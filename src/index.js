@@ -103,7 +103,7 @@ const validationConfig = {
     errorClass: 'popup__error_visible',
 };
 
-function handleHttpError(reason) {
+function handleError(reason) {
     console.log(reason);
     throw reason;
 }
@@ -117,7 +117,7 @@ async function deleteCardQuery(cardElement) {
         await deleteCard(getCardId(cardElement));
         removeCardElement(cardElement);
     } catch (err) {
-        handleHttpError(err);
+        handleError(err);
     }
 }
 
@@ -129,7 +129,7 @@ async function toggleLikeQuery(cardElement, profileId) {
             : await addLike(cardId);
         renderCardElement(cardElement, card, profileId);
     } catch (err) {
-        handleHttpError(err);
+        handleError(err);
     }
 }
 
@@ -178,7 +178,7 @@ function startFormSubmit(submitEvent, formElement, asyncAction, next) {
 
     asyncAction()
         .then(next)
-        .catch(handleHttpError)
+        .catch(handleError)
         .finally(() => {
             submitElement.textContent = prevTextContent;
         });
@@ -293,7 +293,7 @@ async function getInitialData() {
         profile.set(profileInfo);
         renderInitialCards(initialCards);
     } catch (err) {
-        handleHttpError(err);
+        handleError(err);
     }
 }
 
