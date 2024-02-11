@@ -1,5 +1,6 @@
 import {
     addLike,
+    checkIfImage,
     deleteCard,
     getInitialCards,
     getProfileInfo,
@@ -7,7 +8,6 @@ import {
     postCard,
     removeLike,
     updateAvatar,
-    checkIfImage,
 } from './components/api';
 import {
     createCardElement,
@@ -21,7 +21,6 @@ import { closeModal, openModal } from './components/modal';
 import {
     clearValidation,
     enableValidation,
-    hideInputError,
     showInputError,
 } from './components/validation';
 
@@ -229,11 +228,6 @@ function handleAvatarFormSubmit(evt) {
             profile.set({ ...profile.value, avatar: newAvatar.avatar });
             closeModal(popupEditAvatarElement);
             editAvatarFormElement.reset();
-            hideInputError({
-                formElement: editAvatarFormElement,
-                inputElement: editAvatarUrlInputElement,
-                ...validationConfig,
-            });
         }
     };
 

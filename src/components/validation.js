@@ -6,22 +6,21 @@ function errorSelector(id) {
     return `.${id}-error`;
 }
 
-export function showInputError({
+function setSubmitAvailability(
     formElement,
-    inputElement,
-    errorMessage,
-    inputErrorClass,
-    errorClass,
-}) {
-    const errorElement = formElement.querySelector(
-        errorSelector(inputElement.id)
+    { inputSelector, submitButtonSelector, inactiveButtonClass }
+) {
+    const inputElementsArr = Array.from(
+        formElement.querySelectorAll(inputSelector)
     );
-    inputElement.classList.add(inputErrorClass);
-    errorElement.textContent = errorMessage;
-    errorElement.classList.add(errorClass);
+    const targetElement = formElement.querySelector(submitButtonSelector);
+    targetElement.classList.toggle(
+        inactiveButtonClass,
+        !inputElementsArr.every(isValid)
+    );
 }
 
-export function hideInputError({
+function hideInputError({
     formElement,
     inputElement,
     inputErrorClass,
@@ -35,18 +34,19 @@ export function hideInputError({
     errorElement.classList.remove(errorClass);
 }
 
-function setSubmitAvailability(
+export function showInputError({
     formElement,
-    { inputSelector, submitButtonSelector, inactiveButtonClass }
-) {
-    const inputElementsArr = Array.from(
-        formElement.querySelectorAll(inputSelector)
+    inputElement,
+    errorMessage,
+    inputErrorClass,
+    errorClass,
+}) {
+    const errorElement = formElement.querySelector(
+        errorSelector(inputElement.id)
     );
-    const targetElement = formElement.querySelector(submitButtonSelector);
-    targetElement.classList.toggle(
-        inactiveButtonClass,
-        !inputElementsArr.every(isValid)
-    );
+    inputElement.classList.add(inputErrorClass);
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add(errorClass);
 }
 
 export function clearValidation(
