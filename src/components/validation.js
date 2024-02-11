@@ -121,6 +121,11 @@ export function enableValidation({
                     submitButtonSelector,
                 });
             });
+            setSubmitAvailability(formElement, {
+                inactiveButtonClass,
+                inputSelector,
+                submitButtonSelector,
+            });
         });
     });
 }
