@@ -12,25 +12,27 @@ const config = {
 async function getJson(response, reason) {
     const json = await response.json();
 
-    if (response.ok) return json;
+    if (response.ok) {
+        return Promise.resolve(json);
+    } else {
+        const comment =
+            response.status === 400
+                ? 'неверные данные'
+                : response.status === 401
+                ? 'ошибка аутентификации'
+                : response.status === 403
+                ? 'доступ запрещён'
+                : response.status === 404
+                ? 'адрес не найден'
+                : response.status >= 400 && response.status < 500
+                ? 'переданы неверные данные'
+                : response.status >= 500 && response.status < 600
+                ? 'ошибка на стороне сервера'
+                : 'неизвестная ошибка';
 
-    const comment =
-        response.status === 400
-            ? 'неверные данные'
-            : response.status === 401
-            ? 'ошибка аутентификации'
-            : response.status === 403
-            ? 'доступ запрещён'
-            : response.status === 404
-            ? 'адрес не найден'
-            : response.status >= 400 && response.status < 500
-            ? 'переданы неверные данные'
-            : response.status >= 500 && response.status < 600
-            ? 'ошибка на стороне сервера'
-            : 'неизвестная ошибка';
-
-    const message = (json?.message && `. ${json.message}`) || '';
-    return Promise.reject(`${reason}: ${comment}${message}`);
+        const message = (json?.message && `. ${json.message}`) || '';
+        return Promise.reject(`${reason}: ${comment}${message}`);
+    }
 }
 
 export async function getInitialCards() {
