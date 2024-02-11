@@ -1,7 +1,10 @@
+const groupName = 'wff-cohort-6';
+const token = 'f7b85faf-647d-49f4-9714-9c79aa77ce34';
+
 const config = {
-    baseUrl: 'https://nomoreparties.co/v1/wff-cohort-6',
+    baseUrl: `https://nomoreparties.co/v1/${groupName}`,
     headers: {
-        authorization: 'f7b85faf-647d-49f4-9714-9c79aa77ce34',
+        authorization: token,
         'Content-Type': 'application/json',
     },
     url(path) {
