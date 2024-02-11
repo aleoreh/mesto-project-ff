@@ -184,7 +184,7 @@ function beginFormSubmit(submitEvent, formElement, asyncAction, next) {
         });
 }
 
-async function handleProfileFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
     const currentName = editProfileNameInputElement.value;
     const currentAbout = editProfileDescriptionInputElement.value;
 
@@ -203,7 +203,7 @@ async function handleProfileFormSubmit(evt) {
     beginFormSubmit(evt, editProfileFormElement, submitAction, next);
 }
 
-async function handleAvatarFormSubmit(evt) {
+function handleAvatarFormSubmit(evt) {
     const enteredUrl = editAvatarUrlInputElement.value;
 
     const submitAction = () =>
@@ -236,7 +236,7 @@ async function handleAvatarFormSubmit(evt) {
     beginFormSubmit(evt, editAvatarFormElement, submitAction, next);
 }
 
-async function handleNewPlaceFormSubmit(evt) {
+function handleNewPlaceFormSubmit(evt) {
     const submitAction = () =>
         postCard({
             name: newPlacePlaceNameInputElement.value,
