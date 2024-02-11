@@ -9,12 +9,13 @@ const config = {
     },
 };
 
-async function getJson(response, reason) {
+async function getJson(response, nonOkReason) {
     const json = await response.json();
 
     if (response.ok) {
         return Promise.resolve(json);
     } else {
+        // Return comment if there is no message in json
         const comment =
             response.status === 400
                 ? 'неверные данные'
@@ -30,8 +31,8 @@ async function getJson(response, reason) {
                 ? 'ошибка на стороне сервера'
                 : 'неизвестная ошибка';
 
-        const message = (json?.message && `. ${json.message}`) || '';
-        return Promise.reject(`${reason}: ${comment}${message}`);
+        const message = (json?.message && `${json.message}`) || comment;
+        return Promise.reject(`${nonOkReason}. ${message}`);
     }
 }
 
