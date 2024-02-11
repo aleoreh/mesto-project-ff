@@ -1,0 +1,96 @@
+/* ~~~~~~~~~~~~~~ validation ~~~~~~~~~~~~~ */
+
+.popup__error {
+    display: block;
+    min-block-size: 15px;
+    color: red;
+    font-size: 12px;
+}
+
+.popup__error:last-of-type {
+    margin-top: 10px;
+}
+
+.popup__input_type_error {
+    border-bottom: 1px solid red;
+}
+
+.popup__button_disabled {
+    opacity: 0.2;
+    color: #000;
+    background-color: transparent;
+    border: 1px solid #000;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ~~~~~~~~~~~~~~~~ likes ~~~~~~~~~~~~~~~~ */
+
+.card__likes-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 13px;
+}
+
+.card__description {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* ~~~~~~~~~~~~~~~ profile ~~~~~~~~~~~~~~~ */
+
+.profile__image {
+    position: relative;
+}
+
+.profile__image:hover {
+    cursor: pointer;
+}
+
+.profile__image::before {
+    content: '';
+    position: absolute;
+    inset: 0 0;
+    inline-size: 100%;
+    block-size: 100%;
+    border-radius: 50%;
+    background-color: #000;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.3s;
+}
+
+.profile__image:hover::before {
+    opacity: 0.8;
+}
+
+.profile__image::after {
+    content: '';
+    position: absolute;
+    inset: 0 0;
+    inline-size: 100%;
+    block-size: 100%;
+    background-image: url(../images/edit-icon.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20%;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.3s;
+}
+
+.profile__image:hover::after {
+    opacity: 1;
+}
+
+/* ~~~~~~~~~~~~~~~~ popup ~~~~~~~~~~~~~~~~ */
+
+.popup_type_avatar-edit .popup__content {
+  min-height: 272px;
+}
+
+.popup_type_delete-confirm .popup__content {
+  min-height: 181px;
+}
