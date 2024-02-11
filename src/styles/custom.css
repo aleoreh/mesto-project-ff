@@ -84,3 +84,9 @@
 .profile__image:hover::after {
     opacity: 1;
 }
+
+/* ~~~~~~~~~~~~~~~~ popup ~~~~~~~~~~~~~~~~ */
+
+.popup_type_avatar-edit .popup__content {
+  min-height: 272px;
+}
