@@ -49,7 +49,7 @@ function setSubmitAvailability(
     );
 }
 
-function clearValidation(
+export function clearValidation(
     formElement,
     {
         inputSelector,
@@ -77,7 +77,7 @@ function clearValidation(
     });
 }
 
-function enableValidation({
+export function enableValidation({
     formSelector,
     inputSelector,
     submitButtonSelector,
@@ -124,5 +124,3 @@ function enableValidation({
         });
     });
 }
-
-export { enableValidation, clearValidation };
