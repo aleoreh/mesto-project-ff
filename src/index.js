@@ -66,6 +66,10 @@ const newPlaceLinkInputElement = document.querySelector(
     '.popup_type_new-card .popup__form .popup__input_type_url'
 );
 
+const deleteConfirmFormElement = document.querySelector(
+    '.popup__form[name="delete-confirm"]'
+);
+
 const profileInfoElement = document.querySelector('.profile__info');
 const profileImageElement = document.querySelector('.profile__image');
 const profileTitleElement = document.querySelector('.profile__title');
@@ -94,6 +98,10 @@ const popupShowCardImageElement =
 const popupShowCardCaptionElement =
     popupShowCardElement.querySelector('.popup__caption');
 
+const popupDeleteConfirmElement = document.querySelector(
+    '.popup.popup_type_delete-confirm'
+);
+
 const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -112,13 +120,10 @@ function getProfileId(infoElement) {
     return infoElement.getAttribute('data-profile_id');
 }
 
-async function deleteCardQuery(cardElement) {
-    try {
-        await deleteCard(getCardId(cardElement));
-        removeCardElement(cardElement);
-    } catch (err) {
-        handleError(err);
-    }
+function deleteCardQuery(cardElement) {
+    const cardId = getCardId(cardElement);
+    popupDeleteConfirmElement.setAttribute('data-card_id', cardId);
+    openModal(popupDeleteConfirmElement);
 }
 
 async function toggleLikeQuery(cardElement, profileId) {
@@ -261,6 +266,26 @@ function handleNewPlaceFormSubmit(evt) {
     beginFormSubmit(evt, newPlaceFormElement, submitAction, next);
 }
 
+function handleDeleteConfirmFormSubmit(evt) {
+    const cardId = popupDeleteConfirmElement.getAttribute('data-card_id');
+    const cardElement = document.querySelector(`li[data-card_id="${cardId}"]`);
+
+    const action = () =>
+        deleteCard(cardId)
+            .then(() => {
+                removeCardElement(cardElement);
+            })
+            .catch(handleError)
+            .finally(() => {
+                popupDeleteConfirmElement.setAttribute('data-card_id', '');
+                closeModal(popupDeleteConfirmElement);
+            });
+
+    const next = () => {};
+
+    beginFormSubmit(evt, deleteConfirmFormElement, action, next);
+}
+
 function renderProfileInfo({ name, about, avatar, _id }) {
     profileImageElement.style.backgroundImage = `url('${avatar}')`;
     profileImageElement.addEventListener('click', handleEditAvatarButtonClick);
@@ -311,6 +336,11 @@ editProfileFormElement.addEventListener('submit', handleProfileFormSubmit);
 editAvatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
 
 newPlaceFormElement.addEventListener('submit', handleNewPlaceFormSubmit);
+
+deleteConfirmFormElement.addEventListener(
+    'submit',
+    handleDeleteConfirmFormSubmit
+);
 
 document.querySelectorAll('.popup').forEach((elem) => {
     elem.classList.add('popup_is-animated');
