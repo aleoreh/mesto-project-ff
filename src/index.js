@@ -250,8 +250,7 @@ function handleNewPlaceFormSubmit(evt) {
         );
 
         closeModal(popupNewCardElement);
-        newPlacePlaceNameInputElement.value = '';
-        newPlaceLinkInputElement.value = '';
+        newPlaceFormElement.reset();
 
         cardsListElement.prepend(cardElement);
     };
@@ -263,18 +262,15 @@ function handleDeleteConfirmFormSubmit(evt) {
     const cardId = popupDeleteConfirmElement.getAttribute('data-card_id');
     const cardElement = document.querySelector(`li[data-card_id="${cardId}"]`);
 
-    const action = () =>
-        deleteCard(cardId)
-            .then(() => {
-                removeCardElement(cardElement);
-            })
-            .catch(handleError)
-            .finally(() => {
-                popupDeleteConfirmElement.setAttribute('data-card_id', '');
-                closeModal(popupDeleteConfirmElement);
-            });
+    const action = () => deleteCard(cardId);
+    const next = () => {
+        removeCardElement(cardElement);
+        closeModal(popupDeleteConfirmElement);
 
-    const next = () => {};
+        // TODO: идентификатор нужно удалять также при интерактивном
+        // закрытии попапа
+        popupDeleteConfirmElement.setAttribute('data-card_id', '');
+    };
 
     beginFormSubmit(evt, deleteConfirmFormElement, action, next);
 }
