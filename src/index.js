@@ -262,15 +262,15 @@ function handleDeleteConfirmFormSubmit(evt) {
     const cardId = popupDeleteConfirmElement.getAttribute('data-card_id');
     const cardElement = document.querySelector(`li[data-card_id="${cardId}"]`);
 
-    const action = () =>
-        deleteCard(cardId)
-            .then(() => {
-                removeCardElement(cardElement);
-                closeModal(popupDeleteConfirmElement);
-                popupDeleteConfirmElement.setAttribute('data-card_id', '');
-            })
-            .catch(handleError);
-    const next = () => {};
+    const action = () => deleteCard(cardId);
+    const next = () => {
+        removeCardElement(cardElement);
+        closeModal(popupDeleteConfirmElement);
+
+        // TODO: идентификатор нужно удалять также при интерактивном
+        // закрытии попапа
+        popupDeleteConfirmElement.setAttribute('data-card_id', '');
+    };
 
     beginFormSubmit(evt, deleteConfirmFormElement, action, next);
 }
