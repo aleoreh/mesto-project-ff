@@ -250,8 +250,7 @@ function handleNewPlaceFormSubmit(evt) {
         );
 
         closeModal(popupNewCardElement);
-        newPlacePlaceNameInputElement.value = '';
-        newPlaceLinkInputElement.value = '';
+        newPlaceFormElement.reset();
 
         cardsListElement.prepend(cardElement);
     };
