@@ -266,13 +266,10 @@ function handleDeleteConfirmFormSubmit(evt) {
         deleteCard(cardId)
             .then(() => {
                 removeCardElement(cardElement);
-            })
-            .catch(handleError)
-            .finally(() => {
-                popupDeleteConfirmElement.setAttribute('data-card_id', '');
                 closeModal(popupDeleteConfirmElement);
-            });
-
+                popupDeleteConfirmElement.setAttribute('data-card_id', '');
+            })
+            .catch(handleError);
     const next = () => {};
 
     beginFormSubmit(evt, deleteConfirmFormElement, action, next);
